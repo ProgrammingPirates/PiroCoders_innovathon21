@@ -19,5 +19,5 @@ const Contests = new mongoose.Schema({
 },{
     timestamps:true
 })
-const Contests=mongoose.model('Contests',Contests)
-module.exports=Contests;
+const contests=mongoose.model('Contests',Contests)
+module.exports=contests;

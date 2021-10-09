@@ -11,5 +11,5 @@ const Test_cases = new mongoose.Schema({
 },{
     timestamps:true
 })
-const Test_cases=mongoose.model('Test_cases',Test_cases)
-module.exports=Test_cases;
+const test_cases=mongoose.model('Test_cases',Test_cases)
+module.exports=test_cases;

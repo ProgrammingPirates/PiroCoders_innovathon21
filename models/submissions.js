@@ -18,6 +18,9 @@ const submission = new mongoose.Schema({
     result:{
         type:String,
     },
+    status:{
+        type:String,
+    }
 },{
     timestamps:true
 })
