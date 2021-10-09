@@ -1,7 +1,15 @@
 const mongoose = require('mongoose');
 const Questions = new mongoose.Schema({
+    Name:{
+        type:String,
+        required:true
+    },
     Problem_Statement:{
         type:String,
+        required:true
+    },
+    points:{
+        type:Number,
         required:true
     },
     Submissions:[{
