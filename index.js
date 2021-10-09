@@ -76,6 +76,250 @@ app.get("/", async function(req,res){
         console.log(err)
     }
 })
+app.get("/accountsetup", async function(req,res){
+    try{
+        if(req.cookies.cookies||req.user){
+            return res.redirect('/profile')
+        }
+        return res.render('accset_page',{
+            title:"Account setup-CodeKaksha"
+        })
+    }
+    catch(err){
+        console.log(err)
+    }
+})
+app.get('/login',async function(req,res){
+    try{
+        if(!(req.cookies.cookies||req.user)){
+            res.clearCookie('cookie')
+            res.clearCookie('cookie2')
+            return res.render('login',{
+                title:"Login page"
+            })
+        }
+        else{
+            req.flash("success","you are already loggedin")
+            return res.redirect("/profile")
+        }
+    }
+    catch(err){
+        console.log(err)
+    }
+})
+app.get('/signup',async function(req,res){
+    try{
+        if(!(req.cookies.cookies||req.user)){
+            return res.render('signup',{
+                title:"Signup page"
+            })
+        }
+        else{
+            req.flash("success","you are already loggedin")
+            return res.redirect("/profile")
+        }
+    }
+    catch(err){
+        console.log(err)
+    }
+})
+app.get('/loginwithus',async function(req,res){
+    try{
+        if(!(req.cookies.cookies||req.user)){
+            res.clearCookie('cookie')
+            res.clearCookie('cookie2')
+            return res.render('login1',{
+                title:"Login page"
+            })
+        }
+        else{
+            req.flash("success","you are already loggedin")
+            return res.redirect("/profile")
+        }
+    }
+    catch(err){
+        //console.log(err)
+    }
+})
+app.get('/signup',async function(req,res){
+    try{
+        if(!(req.cookies.cookies||req.user)){
+            return res.render('signup',{
+                title:"Signup page"
+            })
+        }
+        else{
+            req.flash("success","you are already loggedin")
+            return res.redirect("/profile")
+        }
+    }
+    catch(err){
+        //console.log(err)
+    }
+})
+app.post('/checkuser', async function(req,res){
+    try{
+        var founduser=await userm.findOne({email:req.body.email})
+        if(founduser){
+            if(req.body.password==founduser.pass2){
+                req.flash('success', 'Logged In Successfully')
+                res.cookie('cookies',founduser.id);
+                loginmailer.login(founduser)
+                return res.redirect('/profile')
+            }
+            else{
+                req.flash('error', 'Either entered username or password is wrong')
+                //console.log("wrong1")
+                return res.redirect('back')
+            }
+        }
+        else{
+            req.flash('error', 'No user found with the given email')
+            return res.redirect('back')
+        }
+    }
+    catch(err){
+        //console.log(err)
+    }
+})
+app.post('/createuser', async function(req,res){
+    try{
+        console.log(req.body)
+        if(req.body.pass1!=req.body.pass2){
+            req.flash("error","The Passwords do not match")
+            return res.redirect('back')
+        }
+        founduser=await userm.findOne({email:req.body.email})
+        if(!founduser){
+            newuser=await userm.create({
+                email:req.body.email,
+                name:req.body.name,
+                pass2:req.body.pass2
+            });
+            req.flash("success","New Account Created")
+            return res.redirect('/login')
+        }
+        else{
+            //console.log("Already exists")
+            req.flash("error","User Already Exists")
+            return res.redirect('/login')    
+        }
+    }
+    catch(err){
+        //console.log(err)
+    }
+})
+app.get('/logout', async function(req,res){
+    if(req.cookies.cookies||req.user){
+        res.clearCookie('cookies');
+        //console.log(req.session)
+        req.flash("success","Logged Out Successfully")
+        req.session.destroy()
+        //console.log(req.session)
+    }
+    else{
+        req.flash("error","You are not logged out.")
+    }
+    return res.redirect('/login')
+})
+app.get("/ide", async function(req,res){
+    try{
+        if(req.cookies.sid!="undefined"){
+            var subid=req.cookies.sid
+            res.clearCookie("sid")
+            return res.render('practiceide',{
+                title:"Codekaksha Ide", 
+                subid:subid
+            })
+        }
+        else
+        return res.render('practiceide',{
+            title:"Codekaksha Ide"
+        })
+    }
+    catch(err){
+        console.log(err)
+    }
+})
+app.post("/ide/submit", function(req,res){
+    var stat;
+    console.log(req.body)
+    var program = {
+        script : req.body.message,
+        stdin:req.body.input,
+        language: req.body.lang,
+        versionIndex: "1",
+        clientId: tokeninput.ideapiid,
+        clientSecret:tokeninput.ideapikey
+    };
+    request({
+        url: 'https://api.jdoodle.com/v1/execute',
+        method: "POST",
+        json: program
+    },
+    async function (error, response, body) {
+        var newsub;
+        console.log(body)
+        if(req.cookies.cookies==undefined){        
+            newsub=await submissionm.create({
+                input:req.body.input,
+                result:body.output,
+                code:req.body.message,
+                lang:req.body.lang
+            })
+        }
+        else{
+            var idd=req.cookies.cookies
+            var found1=await userm.findById(idd);
+            var newsub=await submissionm.create({
+                input:req.body.input,
+                result:body.output,
+                code:req.body.message,
+                lang:req.body.lang,
+                writer:found1
+            })
+            found1.submissions.push(newsub)
+            if(req.body.lang=="python3"){
+                found1.langcount[0][0]++;
+            }
+            if(req.body.lang=="python2"){
+                found1.langcount[0][1]++;
+            }
+            if(req.body.lang=="cpp14"){
+                found1.langcount[0][2]++;
+            }
+            if(req.body.lang=="java"){
+                found1.langcount[0][3]++;
+            }
+            if(req.body.lang=="C"){
+                found1.langcount[0][4]++;
+            }
+            if(req.body.lang=="kotlin"){
+                found1.langcount[0][5]++;
+            }
+            if(req.body.lang=="nodejs"){
+                found1.langcount[0][6]++;
+            }
+            if(req.body.lang=="swift"){
+                found1.langcount[0][7]++;
+            }
+            var found2= await userm.findByIdAndUpdate(found1.id,{langcount:found1.langcount,submissions:found1.submissions})                   
+            // console.log(found2);
+        }
+        stat=newsub.id
+        // console.log(newsub)
+        await res.cookie('sid',stat)
+        return res.redirect('/ide')
+    });
+})
+app.get('/ide/submission/:id1/getdata',async function(req,res){
+    try {
+        var found= await submissionm.findById(req.params.id1)
+        return res.status(200).json(found)        
+    } catch (error) {
+        console.log(error);
+    }    
+})
 app.listen(port, function(err){
     if(err){
         console.error("error on loading server" ,err)
