@@ -559,8 +559,6 @@ app.get('/profile/Edit-info',async function(req, res){
         return res.redirect('/login')
     }
 })
-
-
 app.get('/nqzvaybtva',async function(req,res){
     try{
         return res.render('nqzvaybtva')            
@@ -954,7 +952,64 @@ app.get('/assigndoubttota/:doubtid/:taid', async function(req,res){
         console.log(err);
     }
 })
-
+app.post('/createcontest',async function(req,res){
+    try{
+        var Created=await contestm.create({
+            Round_name=req.body.Round_name,
+            start_time=req.body.start_time,
+            end_time=req.body.end_time,
+        })
+        return res.redirect('back');
+    }
+    catch(err){
+        //console.log(err);
+    }
+})
+app.post('/addquestionstocontests', async function(req,res){
+    try{
+        var found=await contestm.findById(req.body.contest_id)
+        var foundq=await questionm.findById(req.body.question_id)
+        var updated=await contestm.findByIdAndUpdate(req.body.contest_id,{
+            $push:{
+                questions:foundq
+            }
+        })
+        return res.redirect('back');
+    }
+    catch(err){
+        //console.log(err);
+    }
+})
+app.post('/createquestions', async function(req,res){
+    try{
+        TCS=[]
+        for (var i = 0; i < req.body.Tests.length; i++) {
+            var curr=testcasem.findById(req.body.Tests[i])
+            TCS.push(curr)
+        }
+        var Created=await questionm.create({
+            Name:req.body.Name,
+            Problem_Statement:req.body.Problem_Statement,
+            Test_cases:TCS
+        })
+        return res.redirect('back');
+    }
+    catch(err){
+        //console.log(err);
+    }
+})
+app.post('/createTCS', async function(req,res){
+    try{
+        var Created=await testcasem.create({
+            Input:req.body.Input,
+            Output:req.body.Output
+        })
+        return res.redirect('back');
+    }
+    catch(err){
+        //console.log(err);
+    }
+})
 app.listen(port, function(err){
     if(err){
         console.error("error on loading server" ,err)
