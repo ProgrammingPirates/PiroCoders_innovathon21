@@ -320,8 +320,6 @@ app.get('/ide/submission/:id1/getdata',async function(req,res){
         console.log(error);
     }    
 })
-
-
 app.get("/profile", async function(req,res){
     try{
         if(req.cookies.cookies||req.user){
@@ -955,9 +953,9 @@ app.get('/assigndoubttota/:doubtid/:taid', async function(req,res){
 app.post('/createcontest',async function(req,res){
     try{
         var Created=await contestm.create({
-            Round_name=req.body.Round_name,
-            start_time=req.body.start_time,
-            end_time=req.body.end_time,
+            Round_name:req.body.Round_name,
+            start_time:req.body.start_time,
+            end_time:req.body.end_time,
         })
         return res.redirect('back');
     }
