@@ -320,6 +320,245 @@ app.get('/ide/submission/:id1/getdata',async function(req,res){
         console.log(error);
     }    
 })
+
+
+app.get("/profile", async function(req,res){
+    try{
+        if(req.cookies.cookies||req.user){
+            if(req.user){
+                console.log(req.user)
+                var idchoice=req.user._id
+                console.log(idchoice, "herlllo")
+                res.cookie('cookies',idchoice);
+            }
+            else
+            var idchoice=req.cookies.cookies
+            if(idchoice){
+                var found=await userm.findOne({_id:idchoice}).populate('submissions')
+                console.log(found.langcount[0])
+            }
+            return res.render('profile',{
+                title:"Welcome to CodeKaksha",
+                user:found,
+                subs:found.langcount
+            })
+        }
+        else{
+            req.flash("error","Log In first")
+            return res.redirect('/login');
+        }
+    }
+    catch(err){
+        console.log(err)
+    }
+})
+app.get('/viewsubmission/:id',async function(req,res){
+    if(req.cookies.cookies||req.user){
+        var found1=await userm.findById(req.cookies.cookies)
+        var found2=await submissionm.findOne({_id:req.params.id})
+        return res.render('view', {
+            title:"View Submission",
+            user:found1,
+            sub:found2
+        })
+    }
+    else{
+        req.flash("error","You are not logged in.")
+        return res.redirect('/login')
+    }
+})
+app.get('/profile/viewdoubt/:id1',async function(req,res){
+    if(req.cookies.cookies||req.user){
+        var doubt=await doubtm.findById(req.params.id1).populate('author').populate({path:'messages', populate:{path:'author'}});
+        var found=await userm.findById(doubt.author.id). populate('messages');
+        return res.render('viewdoubt',{
+            title:"View Doubt",
+            user:found,
+            doubt:doubt
+        })
+    }
+    else{
+        req.flash("error","You are not logged in.")
+        return res.redirect('/login')
+    }
+    
+})
+app.post('/profile/doubt/:id1/addreply/', async function(req,res){
+    if(req.cookies.cookies||req.user){
+        var doubt=await doubtm.findById(req.params.id1).populate('author').populate({path:'messages', populate:{path:'author'}})
+        var found=await userm.findById(req.cookies.cookies);
+        var newreply=await messagem.create({
+            content:req.body.added_message,
+            author:found
+        })
+        var doubtupdated=await doubtm.findByIdAndUpdate(doubt.id, {$push:{messages:newreply}}).populate('author');
+        return res.redirect('back')
+    }
+    else{
+        req.flash("error","You are not logged in.")
+        return res.redirect('/login')
+    }
+
+})
+app.get('/Create-contribution',async function(req, res){
+    if(req.cookies.cookies||req.user){
+        if(req.user){
+            var idchoice=req.user._id
+            res.cookie('cookies',idchoice);
+        }
+        else
+        var idchoice=req.cookies.cookies
+        var found=await userm.findOne({_id:idchoice}).populate('Contribution')
+        return res.render('Contributions',{
+            title:"Create-contribution page",
+            user:found
+        })
+    }
+    else{
+        req.flash("error","You are not logged in.")
+        return res.redirect('/login')
+    }
+})
+app.post('/addnewcontributions', async function(req,res){
+    if(req.cookies.cookies||req.user){
+        if(req.user){
+            var idchoice=req.user._id
+            res.cookie('cookies',idchoice);
+        }
+        else
+        var idchoice=req.cookies.cookies
+        var found1=await userm.findById(req.cookies.cookies)
+        console.log(found1);
+        var newcontri=await contrim.create({
+            title:req.body.title,
+            message:req.body.message,
+            author:found1,
+            typeofcontri:req.body.type
+        })
+        console.log(newcontri);
+        return res.redirect('back');
+    }
+    else{
+        req.flash("error","You are not logged in.")
+        return res.redirect('/login')
+    }
+})
+app.get('/profile/Doubts',async function(req, res){
+    if(req.cookies.cookies||req.user){
+        if(req.user){
+            console.log(req.user)
+            var idchoice=req.user._id
+            console.log(idchoice, "herlllo")
+            res.cookie('cookies',idchoice);
+        }
+        else
+        var idchoice=req.cookies.cookies
+        var found=await userm.findOne({_id:idchoice}).populate('submissions')
+        var temp=await doubtm.find({}).populate('author')
+        var found2=[];
+        for(let i of temp){
+            console.log(i.author.id)
+            if(i.author.id==idchoice){
+                found2.push(i)
+            }
+        }
+        console.log(found2)
+        return res.render('Doubts',{
+            title:"Doubts page",
+            user:found,
+            list:found2
+        })
+    }
+    else{
+        req.flash("error","You are not logged in.")
+        return res.redirect('/login')
+    }
+})
+app.get('/learn',async function(req, res){
+    return res.render('learn',{
+        title:"Learn a new concept"
+    })
+})
+app.get('/learn/:id1',async function(req, res){
+    var temp=req.params.id1
+    temp=temp.charAt(0).toUpperCase()+temp.slice(1);
+    var found=await conceptm.findOne({title:temp})
+    console.log(found, "hello")
+    if(found==null){
+        req.flash('error','No such topic found')
+            return res.redirect('/learn')
+    }
+    return res.render('learntopic',{
+        title:req.params.id1,
+        concept:found
+    })
+})
+app.get('/profile/Interests',async function(req, res){
+    if(req.cookies.cookies||req.user){
+        if(req.user){
+        console.log(req.user)
+        var idchoice=req.user._id
+        console.log(idchoice, "herlllo")
+        res.cookie('cookies',idchoice);
+    }
+    else
+    var idchoice=req.cookies.cookies
+        var found=await userm.findOne({_id:idchoice}).populate('submissions')
+        return res.render('Interests',{
+            title:"Interests page",
+            user:found
+        })
+    }
+    else{
+        req.flash("error","You are not logged in.")
+        return res.redirect('/login')
+    }
+})
+app.get('/profile/Contributions',async function(req, res){
+    if(req.cookies.cookies||req.user){
+        if(req.user){
+            console.log(req.user)
+            var idchoice=req.user._id
+            console.log(idchoice, "herlllo")
+            res.cookie('cookies',idchoice);
+        }
+        else
+        var idchoice=req.cookies.cookies
+        var found2=await contrim.find({}).sort({'timestamp': -1}).populate('author')
+        console.log(found2)
+        var found=await userm.findOne({_id:idchoice}).populate('submissions')
+        return res.render('Viewcontri',{
+            title:"Contributions page",
+            user:found,
+            contrilist:found2
+        })
+    }
+    else{
+        req.flash("error","You are not logged in.")
+        return res.redirect('/login')
+    }
+})
+app.get('/profile/Edit-info',async function(req, res){
+    if(req.cookies.cookies||req.user){
+        if(req.user){
+            console.log(req.user)
+            var idchoice=req.user._id
+            console.log(idchoice, "herlllo")
+            res.cookie('cookies',idchoice);
+        }
+        else
+        var idchoice=req.cookies.cookies
+        var found=await userm.findOne({_id:idchoice}).populate('submissions')
+        return res.render('Edit-info',{
+            title:"Edit-info page",
+            user:found
+        })
+    }
+    else{
+        req.flash("error","You are not logged in.")
+        return res.redirect('/login')
+    }
+})
 app.listen(port, function(err){
     if(err){
         console.error("error on loading server" ,err)
