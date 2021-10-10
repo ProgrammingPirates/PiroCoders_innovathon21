@@ -559,6 +559,389 @@ app.get('/profile/Edit-info',async function(req, res){
         return res.redirect('/login')
     }
 })
+
+
+app.get('/nqzvaybtva',async function(req,res){
+    try{
+        return res.render('nqzvaybtva')            
+    }
+    catch(err){
+        //console.log(err);
+    }
+})
+app.post('/nqzvaybtva/nqzvaybtva-purpxcnff', async function(req, res){
+    try{
+        if(req.body.first==tokeninput.adminkey1&&req.body.second==tokeninput.adminkey2&&req.body.third==tokeninput.adminkey3&&req.body.fourth==tokeninput.adminkey4){
+            res.cookie('admin', 1);
+            //console.log(admin)
+            return res.redirect('/sgdzclhmozmdkgnldozfdkdsyfn')
+        }
+        else{
+            res.clearCookie('admin')
+            req.flash('error','Well you are not allowed')
+            return res.redirect('/')
+        }    
+    }
+    catch(err){
+        //console.log(err);
+    }
+})
+app.get('/sgdzclhmozmdkgnldozfdkdsyfn',async function(req,res){
+    try{
+        if(req.cookies.admin==1){
+            return res.render('sgdzclhmozmdkgnldozfdkdsyfn')
+        }
+        else{
+            req.flash('error','Well you are not allowed')
+            return res.redirect('/')
+        }
+    }
+    catch(err){
+        //console.log(err);
+    }
+})
+app.post('/editinfo', async function(req,res){
+    try{
+        if(req.cookies.cookies||req.user){
+            if(req.body.password!=req.body.password2){
+                req.flash("error", "Passwords dont match");
+                return res.redirect('back')
+            }
+            if(req.user){
+                var idchoice=req.user._id
+                res.cookie('cookies',idchoice);
+            }
+            else
+            var idchoice=req.cookies.cookies
+            var found
+            if(req.body.password!=""){
+                found=await userm.findOneAndUpdate({_id:idchoice}, {
+                    name:req.body.name,
+                    email:req.body.mail
+                })                
+            }
+            else{
+                found=await userm.findOneAndUpdate({_id:idchoice}, {
+                    name:req.body.name,
+                    email:req.body.mail,
+                    pass2:req.body.password
+                })
+            }
+            console.log(found, "Updated")
+            req.flash("success","Profile info changed")
+            return res.redirect('/profile')
+        }
+        else{
+            req.flash("error","You are not logged in.")
+            return res.redirect('/login')
+        }
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+app.post('/createconcept',async function(req,res){
+    try{
+        if(req.cookies.admin==1){   
+            var newconcept=await conceptm.create({
+                title:req.body.name,
+                message:req.body.matter,
+                image:req.body.image_link,
+                link:req.body.ytvidlink
+            })
+            console.log(newconcept);
+            // console.log("HELLO, I am here")
+            return res.redirect('back');
+        }
+        else{
+            req.flash('error','Well you are not allowed')
+            res.clearCookie('admin')
+            return res.redirect('/')
+        }
+    }
+    catch(err){
+        //console.log(err);
+    }
+})
+app.get('/privacy-policy',async function(req,res){
+    try{
+        return res.render('privacy-policy')
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+app.listen(port, function(err){
+    if(err){
+        console.error("error on loading server" ,err)
+    }
+    else{
+        console.log(`working on port: ${port}`);
+    }
+})
+app.post('/profile/createnewdoubt', async function(req,res){
+    if(req.cookies.cookies||req.user){
+        console.log(req.cookies.cookies)
+        if(req.user){
+            var idchoice=req.user._id
+            console.log(idchoice, "herlllo")
+            res.cookie('cookies',idchoice);
+        }
+        var found1=await userm.findById(req.cookies.cookies)
+        var newdoubt=await doubtm.create({
+            title:req.body.title,
+            message:req.body.description,
+            author:found1
+        })
+        console.log(newdoubt, found1)
+        return res.redirect('back');
+    }
+    else{
+        req.flash("error","You are not logged in.")
+        return res.redirect('/login')
+    }
+})
+app.get('/contests', async function(req,res){
+    try{
+        var found=await contestm.find({})
+        return res.render('allcontests',{
+            title:"Contests",
+            contests:found
+        })
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+app.get('/contest/:contestid', async function(req,res){
+    try{
+        var found=await contestm.findById(req.params.contestid).populate('questions')
+        return res.render('contest_info',{
+            title:found.Round_name,
+            contest:found
+        })
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+app.get('/contest/:contest_id/:question_id', async function(req,res){
+    try{
+        var found=await contestm.findById(req.params.contest_id).populate('questions')
+        var found1=await questionm.findById(req.params.question_id).populate('Test_cases')
+        return res.render('question_info',{
+            title:found.Round_name,
+            contest:found,
+            question:found1
+        })
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+app.get('/contest/:contest_id/leaderboard', async function(req,res){
+    try{
+        var found=await contestm.findById(req.params.contest_id).populate('questions')
+        return res.render('leaderboard',{
+            title:found.Round_name,
+            contest:found,
+        })
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+app.get('/contest/:contest_id/my_submissions', async function(req,res){
+    try{
+        if(req.cookies.cookies||req.user){
+            if(req.user){
+                console.log(req.user)
+                var idchoice=req.user._id
+                console.log(idchoice, "herlllo")
+                res.cookie('cookies',idchoice);
+            }
+            var found=await contestm.findById(req.params.contest_id).populate('questions').populate('submissions')
+            var temp=found.Submissions
+            var found1=[]
+            for(var i=0;i<temp.length;i++){
+                if(temp[i].writer==ObjectID(req.cookies.cookies)){
+                    found1.push(temp[i])
+                }
+            }
+            return res.render('my_submissions',{
+                title:found.Round_name,
+                contest:found,
+                submissions:found1
+            })
+        }
+        else{
+            req.flash("error","You are not logged in.")
+            return res.redirect('/login')
+        }
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+app.post('/contests/:contest_id/:question_id/submit_code', async function(req,res){
+    try{
+        if(req.cookies.cookies||req.user){
+            if(req.user){
+                console.log(req.user)
+                var idchoice=req.user._id
+                console.log(idchoice, "herlllo")
+                res.cookie('cookies',idchoice);
+            }
+            var user=await userm.findById(req.cookies.cookies)
+            var question= await questionm.findById(req.params.question_id).populate('Test_cases')
+            var tcs=question.Test_cases
+            var i=0;
+            var flag=1
+            for(i=0;i<tcs.length;i++){
+                var stat;
+                var program = {
+                    script : req.body.message,
+                    stdin:tcs[i].input,
+                    language: req.body.lang,
+                    versionIndex: "1",
+                    clientId: tokeninput.ideapiid,
+                    clientSecret:tokeninput.ideapikey
+                };
+                request({
+                    url: 'https://api.jdoodle.com/v1/execute',
+                    method: "POST",
+                    json: program
+                },
+                async function (error, response, body) {
+                    if(body.output!=tcs[i].output){
+                        flag=0
+                    }
+                    if(body.cpuTime>1){
+                        flag=2
+                    }
+                })
+                if(flag!=1)break
+            }
+            if(flag==2){
+                newsub=await submissionm.create({
+                    code:req.body.message,
+                    lang:req.body.lang,
+                    writer:user,
+                    status:"TLE"
+                })
+            }
+            else if(i==tcs.length){
+                newsub=await submissionm.create({
+                    code:req.body.message,
+                    writer:user,
+                    lang:req.body.lang,
+                    status:"Accepted"
+                })
+            }
+            else{
+                newsub=await submissionm.create({
+                    writer:user,
+                    code:req.body.message,
+                    lang:req.body.lang,
+                    status:"Wrong Answer"
+                })
+            }
+            return res.redirect('/contest/'+req.params.contest_id+'/my_submissions')
+        }
+        else{
+            req.flash("error","You are not logged in.")
+            return res.redirect('/login')
+        }
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+app.post('/create_TA', async function(req,res){
+    try{
+        // generate a random string to be used as a password
+        var TACreated=await Tam.create({
+            name:req.body.name,
+            email:req.body.email,
+            password:req.body.password,
+        })
+        return res.redirect('back')
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+app.post('/TA/login', async function(req,res){
+    try{
+        var found=await Tam.find({email:req.query.email}).populate('OnGoingDoubts').populate('CompletedDoubts')
+        if(req.body.pass==found[0].password){
+            res.cookie('TA',found[0]._id);
+            return res.redirect('/TA/profile')
+        }
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+app.get('/TA/profile', async function(req,res){
+    try{
+        if(req.cookies.TA){
+            var found=await Tam.findById(req.cookies.TA).populate('OnGoingDoubts').populate('CompletedDoubts')
+            return res.render('TA_profile',{
+                title:found.name,
+                Ta_details:found
+            })
+        }
+        else{
+            req.flash("error","You are not logged in.")
+            return res.redirect('/TA/login')
+        }
+
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+app.get('/TA/view/:doubtid', async function(req,res){
+    try{
+        if(req.cookies.TA){
+            var TA_found=await Tam.findById(req.cookies.TA).populate('OnGoingDoubts').populate('CompletedDoubts')
+            return res.render('TA_view',{
+                title:found.title,
+                doubt:found
+            })
+        }
+        else{
+            req.flash("error","You are not logged in.")
+            return res.redirect('/TA/login')
+        }
+
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+app.get('/TA/logout', async function(req,res){
+    try{
+        res.clearCookie('TA');
+        return res.redirect('/')
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+app.post('/TA/doubt/:id/addreply', async function(req,res){
+    var doubt=await doubtm.findById(req.params.id1).populate('author').populate({path:'messages', populate:{path:'author'}})
+    var found=await Tam.findById(req.cookies.TA)
+    var newreply=await messagem.create({
+        content:req.body.added_message,
+        author2:found
+    })
+    var doubtupdated=await doubtm.findByIdAndUpdate(doubt.id, {$push:{messages:newreply}}).populate('author');
+    return res.redirect('back')
+})
+
+
 app.listen(port, function(err){
     if(err){
         console.error("error on loading server" ,err)
