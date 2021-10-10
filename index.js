@@ -940,7 +940,20 @@ app.post('/TA/doubt/:id/addreply', async function(req,res){
     var doubtupdated=await doubtm.findByIdAndUpdate(doubt.id, {$push:{messages:newreply}}).populate('author');
     return res.redirect('back')
 })
-
+app.get('/assigndoubttota/:doubtid/:taid', async function(req,res){
+    try{
+        var doubt=await doubtm.findById(req.params.doubtid)
+        if(dount.status!=1){
+            return res.redirect('back')
+        }
+        var found=await Tam.findById(req.params.taid)
+        var foundupdated=await Tam.findByIdAndUpdate(req.params.taid, {$push:{OnGoingDoubts:doubt}})
+        return res.redirect('back')
+    }
+    catch(err){
+        console.log(err);
+    }
+})
 
 app.listen(port, function(err){
     if(err){
