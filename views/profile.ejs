@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%=locals.title%></title>
+    <link rel="stylesheet" type="text/css" href="/css/profile.css">
+</head>
+<body>
+    <h1>profile page</h1>
+    <header id="header">
+        <a href="/">
+            <img id="logo-header" src="/mediafiles/logo.png">
+        </a>
+        <div id="logout-symbol">
+            <a href="/logout">
+                <i class="fas fa-sign-out-alt fa-2x" style="color: white;"></i>
+            </a>
+        </div>
+    </header>
+    <main>
+        <div style="background: radial-gradient(ellipse at bottom, #0D1E31, #111); height: 100vh; width: 18%; position: absolute; top: 0%;">
+            <div style="background-color: orange; height: 22%; width: 100%; position: absolute; top: 0%;">
+                <div id="namemailbox">
+                    <p>
+                        <%=user.name%>
+                        <br>
+                        <%=user.email%>
+                    </p>
+                </div>
+            </div>
+            <div id="profile-menu">
+                <div id="option-1" class="options-profile" style="top: 29%; height: 19vh;">
+                    Basic
+                </div>
+                <div id="option-1" class="options-profile" style="top: 29%; background: radial-gradient(ellipse at bottom, #0D1E31, #111);">
+                    Basic
+                </div>
+            <a href="/ide">
+                <div id="option-2" class="options-profile" style="top: 39%;">
+                        Practice
+                </div>
+            </a>
+            <a href="/profile/Doubts">
+                <div id="option-3" class="options-profile" style="top: 59%;">
+                        Doubts
+                </div>
+            </a>
+            <a href="/profile/Interests">
+                <div id="option-4" class="options-profile" style="top: 69%;">
+                        Interests
+                </div>
+            </a>
+            <a href="/profile/Contributions">
+                <div id="option-5" class="options-profile" style="top: 79%;">
+                        Contributions
+                </div>
+            </a>
+            <a href="/profile/Edit-info">
+                <div id="option-6" class="options-profile" style="top: 89%;">
+                        Edit-info
+                </div>
+            </a>
+            <a href="/learn">
+                <div id="option-6" class="options-profile" style="top: 89%;">
+                    Learn about a topic
+                </div>
+            </a>
+        </div>
+        </div>
+        <div id="content-area-profile">
+            <div id="info-display-1">
+                <div id="div1head">
+                    About Me:
+                </div>
+                <div style="top: 17%; left: 7%;">
+                    Name:
+                </div>
+                <div id="nameval">
+                    <%=user.name%>
+                </div>
+                <div style="top: 39%; left: 7%;">
+                    Email:
+                </div>
+                <div id="emailval">
+                    <%=user.email%>
+                </div>
+                <div  style="top: 65%; left: 7%;">
+                    No of submissions:
+                </div>
+                <div id="sulval">
+                    <%=user.submissions.length%>
+                </div>
+            </div>
+            <div id="info-display-2" style="background-color: rgb(168,136,255); color: white; height: 38vh; width: 32vw; position: absolute; top: 26%; left: 65%;">
+                <div id="piechart"></div>
+            </div>
+            <div id="info-display-3">
+                <div id="div3head">
+                    Your submissions
+                </div>
+                <div id="div3matter">
+                    <%for(let i of user.submissions){%>
+                        <div>
+                            <a style="color: white;" href="/viewsubmission/<%=i.id%>">
+                                <%=i.id%>
+                            </a>......................<%=i.lang%>
+                        </div>
+                    <%}%>
+                </div>
+            </div>
+            <div id="info-display-4">
+                <div id="div4head">
+                    New topics added
+                </div>    
+                <ol>
+                    <li>Dynamic Programming</li>
+                    <li>Recursion</li>
+                </ol>
+            </div>
+            <div style="display: none;" class="subscount">
+                <%=user.langcount[0][0]%>
+            </div>
+            <div style="display: none;" class="subscount">
+                <%=user.langcount[0][1]%>
+            </div>
+            <div style="display: none;" class="subscount">
+                <%=user.langcount[0][2]%>
+            </div>
+            <div style="display: none;" class="subscount">
+                <%=user.langcount[0][3]%>
+            </div>
+            <div style="display: none;" class="subscount">
+                <%=user.langcount[0][4]%>
+            </div>
+            <div style="display: none;" class="subscount">
+                <%=user.langcount[0][5]%>
+            </div>
+            <div style="display: none;" class="subscount">
+                <%=user.langcount[0][6]%>
+            </div>
+            <div style="display: none;" class="subscount">
+                <%=user.langcount[0][7]%>
+            </div>
+            <script type="text/javascript">
+                google.charts.load('current', {'packages':['corechart']});
+                google.charts.setOnLoadCallback(drawChart);
+                function drawChart() {
+                    var valuesof=document.getElementsByClassName('subscount')
+                    console.log(valuesof)
+
+                    var data = google.visualization.arrayToDataTable([
+                    ['Languages', 'No. of submissions'],
+                    ['Python3', parseInt(valuesof[0].innerText)],
+                    ['Python2', parseInt(valuesof[1].innerText)],
+                    ['C++', parseInt(valuesof[2].innerText)],
+                    ['C', parseInt(valuesof[4].innerText)],
+                    ['Java', parseInt(valuesof[3].innerText)],
+                    ['Kotlin', parseInt(valuesof[5].innerText)],
+                    ['Nodejs', parseInt(valuesof[6].innerText)],
+                    ['Swift', parseInt(valuesof[7].innerText)]
+                ]);
+                var h=(286.663/754)*window.innerHeight;
+                if(window.outerWidth<=449){
+                    h=200
+                }
+                var options = {'title':'', 'width':(491.513/1536)*window.outerWidth, 'height':h, 'backgroundColor':'#111'};
+                var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                chart.draw(data, options);
+                }
+                
+                </script>
+        </div>
+    </main>
+</body>
+</html>

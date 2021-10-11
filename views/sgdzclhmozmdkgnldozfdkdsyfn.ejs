@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body style="color: orange;">
+    <h1>Create a new topic</h1>
+    <form method="post" action="/createconcept">
+        <input name="name" type="text" required placeholder="name">
+        <textarea name="matter"></textarea>
+        <input name="image_link" type="text" placeholder="link1">
+        <input name="ytvidlink" type="text" placeholder="link2">
+        <input type="submit">
+    </form>
+    <h1>Create New test cases:</h1>
+    <form method="post" action="/createTCS">
+        <input type="text" name="Input" required placeholder="Input">
+        <input type="text" name="Output" required placeholder="Output">
+        <input type="submit">
+    </form>
+    <h1>Create New Questions:</h1>
+    <form method="post" action="/createquestions">
+        <input type="text" name="Name" required placeholder="Name">
+        <input type="number" name="points" required placeholder="points">
+        <input type="text" name="Problem_Statement" required placeholder="Problem_Statement">
+        <input type="submit">
+    </form>
+    <h1>Create New Contests:</h1>
+    <form method="post" action="/createcontest">
+        <input type="text" name="Round_name" required placeholder="Name">
+        <input type="date" name="date" required placeholder="date">
+        <input type="time" name="start_time" required placeholder="start_time">
+        <input type="time" name="end_time" required placeholder="end_time">
+        <input type="submit">
+    </form>
+    <h1>Add questions to contests</h1>
+    <form method="post" action="/addquestionstocontests">
+        <input type="text" name="contest_id" required placeholder="contest_id">
+        <input type="text" name="question_id" required placeholder="question_id">
+        <input type="submit">
+    </form>
+    <h1>Add testcases to questions</h1>
+    <form method="post" action="/addtcstoquestions">
+        <input type="text" name="testcase_id" required placeholder="testcase_id">
+        <input type="text" name="question_id" required placeholder="question_id">
+        <input type="submit">
+    </form>
+    <h1>Create Ta</h1>
+    <form method="post" action="/create_TA">
+        <input type="text" name="name" required placeholder="name">
+        <input type="email" name="email" required placeholder="email">
+        <input type="password" name="password" required placeholder="password">
+        <input type="submit">
+    </form>
+</body>
+</html>

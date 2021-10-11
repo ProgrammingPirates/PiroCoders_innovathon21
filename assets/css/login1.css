@@ -1,0 +1,73 @@
+body * {
+    outline: none !important; 
+  }
+  
+  body ::placeholder {
+    color: orange; 
+  }
+  
+  body #center-image-hompage {
+    margin-top: 4%;
+    margin-bottom: 1%;
+    margin-left: 37.5%; 
+  }
+  
+  body a {
+    text-decoration: none; 
+  }
+  
+  body input {
+    color: orange;
+    background-color: inherit;
+    border: none;
+    border-bottom: 1px solid white;
+  }
+  
+  body input[type=password], body input[type=email] {
+    width: 220%; 
+  }
+  
+  body input[type=submit] {
+    background-color: inherit;
+    border: 1px solid orange;
+    color: orange;
+    font-size: 120%;
+    padding: 5.35% 10.7%;
+    text-decoration: none;
+    margin: 4px 2px;
+    margin-left: 85%;
+    cursor: pointer; 
+  }
+  
+  body #localauthentication {
+    margin-left: 100%;
+    margin-top: 15%; 
+  }
+  
+  body #seperation-line {
+    border: 1px solid white;
+    margin-left: 55%;
+    height: 20em;
+    margin-top: -10%; 
+  }
+  
+  body #socialauthentication {
+    margin-top: -13%;
+    margin-left: 30%; 
+  }
+#link2{
+  width: max-content; position: absolute; top: 80%; left: 55%;
+}
+#link1{
+  width: max-content; position: absolute; top: 80%; left: 41%;
+}
+@media (max-width:550px){
+  #link1{
+      top: 79%;
+      left: 51%;
+  }
+  #link2{
+      top: 79%;
+      left: 83%;
+  }
+}

@@ -1,0 +1,45 @@
+#header{
+    text-align: center;
+}
+#logo-header{
+    height: 10rem;
+}
+.topic-display{
+    background-color: rgb(33, 18, 75);
+    color: white;
+    height: calc(100vh - 10.3rem);
+    width: 100vw;
+}
+.topic-container{
+    position: absolute;
+    background: white;
+    height: 35%;
+    width: 18%;
+    margin-left: 3%;
+    border-radius: 6%;
+}
+.topic-container-image{
+    height: 13rem;
+    position: absolute;
+    top: 19%;
+    left: 2%;
+    border: 1px solid rgb(168, 136 , 255);
+    border-radius: 7%;
+}
+.topic-container-name{
+    color: orange;
+    position: absolute;
+    top: 17%;
+    border-bottom: 4px solid rgb(168, 136 , 255);
+    width: 96.3%;
+    z-index: 1;
+    padding-bottom: -1px;
+    left: 2.25%;
+    background: white;
+    text-align: center;
+}
+@media(max-width:1000px){
+    .topic-display{
+        overflow: scroll;
+    }
+}

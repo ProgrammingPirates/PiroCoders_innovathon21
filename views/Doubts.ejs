@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%=locals.title%></title>
+    <link rel="stylesheet" type="text/css" href="/css/doubts.css">
+</head>
+<body>
+
+        <div id="logout-symbol">
+            <a href="/logout">
+                <i class="fas fa-sign-out-alt fa-2x" style="color: white;"></i>
+            </a>
+        </div>
+    <main>
+        <div style="background: radial-gradient(ellipse at bottom, #0D1E31, #111); height: 100vh; width: 18%; position: absolute; top: 0%;">
+            <div style="background-color: orange; height: 22%; width: 100%; position: absolute; top: 0%;">
+                <div id="namemailbox">
+                    <p>
+                        <%=user.name%>
+                        <br>
+                        <%=user.email%>
+                    </p>
+                </div>
+            </div>
+            <div id="profile-menu">
+                <div id="option-1" class="options-profile" style="top: 29%; height: 19vh;">
+                    Basic
+                </div>
+            <a href="/profile">
+                <div id="option-1" class="options-profile" style="top: 29%;">
+                    Basic
+                </div>
+            </a>
+            <a href="/ide">
+                <div id="option-2" class="options-profile" style="top: 39%;">
+                        Practice
+                </div>
+            </a>
+            <a>
+                <div id="option-3" class="options-profile" style="top: 59%; background: radial-gradient(ellipse at bottom, #0D1E31, #111);">
+                        Doubts
+                </div>
+            </a>
+            <a href="/profile/Interests">
+                <div id="option-4" class="options-profile" style="top: 69%;">
+                        Interests
+                </div>
+            </a>
+            <a href="/profile/Contributions">
+                <div id="option-5" class="options-profile" style="top: 79%;">
+                        Contributions
+                </div>
+            </a>
+            <a href="/profile/Edit-info">
+                <div id="option-6" class="options-profile" style="top: 89%;">
+                        Edit-info
+                </div>
+            </a>
+            <a href="/learn">
+                <div id="option-6" class="options-profile" style="top: 89%;">
+                    Learn about a topic
+                </div>
+            </a>
+        </div>
+        </div>
+        <div id="content-area-profile">
+            <div id="createdoubtsection">
+                <div id="createnewhead" style="color: white;">
+                Create a new doubt:
+                </div>
+                <div id="formdiv">
+                    <form action="/profile/createnewdoubt" method="POST">
+                        <input type="text" name="title" placeholder="Title" id="input1">
+                        <textarea name="description" id="desc-input" placeholder="Enter the description of your doubt......."></textarea>
+                        <input type="submit">
+                    </form>
+                </div>
+            </div>
+            <div id="previousdoubtssection">
+                <div id="prevhead" style="color: white;">Previous Doubts:</div>
+                <div id="listdisplay">
+                    <%if(list!=undefined){%>
+                        <%for(let i of list){%>
+                            <a href="/profile/viewdoubt/<%=i.id%>">
+                                <div class="doubts">
+                                    <div style="text-align: center;">
+                                        <%=i.title%>
+                                    </div>
+                                    <div>
+                                        <%=i.message%>
+                                    </div>
+                                </div>
+                            </a>
+                        <%}%>
+                    <%}%>
+
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

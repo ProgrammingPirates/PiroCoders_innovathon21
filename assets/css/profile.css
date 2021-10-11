@@ -1,0 +1,239 @@
+body{
+    background-image: url('../mediafiles/login_page2.jpeg');
+    
+}
+
+#header{
+    text-align: center;
+}
+#logo-header{
+    height: 11rem;
+}
+
+#logout-symbol, #profile-self-symbol{
+    color: white;
+    position: absolute;
+    top: 9%;
+}
+#logout-symbol{
+    left: 95%;
+}
+#profile-self-symbol{
+    left: 90%;
+}
+#content-area-profile{
+    background: radial-gradient(ellipse at bottom, #0D1E31, #111);
+    height: calc(100vh - 11.3rem);
+}
+.options-profile{
+    color: white;
+    font-size: 2rem;
+}
+.options-profile{
+    height: 8.2vh;
+    padding-top: 2.5vh;
+    text-align: center;
+    cursor: pointer;
+}
+.options-profile:hover{
+    background: radial-gradient(ellipse at bottom, #0D1E31, #111);
+    border: 1px solid white;
+}
+#info-display-1 div{
+    background: radial-gradient(ellipse at bottom, #0D1E31, #111);
+    position: absolute;
+}
+#profile-menu a{
+    color: white;
+    text-decoration: none;
+}
+ol{
+    position: absolute;
+    top: 32%;
+    left: 10%;
+}
+#info-display-1{
+    justify-content: center;
+    align-content: center;
+    background: radial-gradient(ellipse at bottom, #0D1E31, #111);top: 2%; color: white; height: 38vh; width: 42vw; position: absolute; top: 26%; left: 21%;
+}
+#info-display-3{
+    background: radial-gradient(ellipse at bottom, #0D1E31, #111);font-size: 1.5rem; color: white; height: 32vh; width: 34vw; position: absolute; top: 66%; left: 21%;
+}
+#div1head{
+    font-size: 2rem;
+    left: 36%; 
+    top: 2%;
+}
+#div3head{
+    position: absolute; 
+    top: 2%; 
+    left: 31.5%; 
+    font-size: 2rem;
+}
+#div3matter{
+    font-size: 1.5rem; 
+    margin-top: 12%; 
+    margin-left: 4%; 
+    overflow: scroll; 
+    height: 66%;
+    width: 93%;
+}
+#div4head{
+    font-size: 2rem; position: absolute; top: 2%; width: 100%; text-align: center;
+}
+#namemailbox{
+    color: rgb(38, 70, 111); 
+    font-size: 1.4rem; 
+    text-align: center;
+}
+#nameval{
+    top: 17%; left: 62%;
+}
+#emailval{
+    top: 39%; left: 62%;
+}
+#sulval{
+    top: 65%; left: 62%;
+}
+#info-display-4{
+    background: radial-gradient(ellipse at bottom, #0D1E31, #111); font-size: 1.5rem; color: white; height: 32vh; width: 40vw; position: absolute; top: 66%; left: 57%;
+}
+@media (max-width:1181px){
+    #div1head{
+        font-size:1.5rem;
+    }
+}
+@media (max-width:1074px){
+    #div3matter{
+        font-size: 1rem;
+    }
+    #div3head{
+        position: absolute; 
+        top: 2%; 
+        left: 27.5%; 
+        font-size: 1.5rem;
+    }
+}
+@media (max-width:1000px){
+    #namemailbox{
+        font-size: 0.9rem
+    }
+    .options-profile{
+        font-size: 1rem;
+    }
+}
+@media (max-width:791px){
+    #nameval{
+        top: 17%; left: 52%;
+    }
+    #emailval{
+        top: 39%; left: 52%;
+    }
+    #sulval{
+        top: 65%; left: 52%;
+    }
+}
+@media (max-width:692px){
+    #div3head{
+        left: 15.5%;
+    }
+    #div3matter{
+        margin-top: 18%;
+        margin-left: 4%;
+        overflow: scroll;
+        height: 76%;
+        width: 93%
+    }
+}
+@media (max-width:650px){
+    #sulval{
+        left: 60%;
+    }
+    #emailval{
+        left: 45%;
+    }
+    #nameval{
+        left: 45%
+    }
+}
+@media (max-width:595px){
+    #div3matter{
+        font-size: 0.7rem;
+    }
+    #div3head{
+        left: 7%;
+    }
+}
+@media (max-width:540px){
+    #div3head{
+        font-size: 1rem;
+    }
+    #info-display-4{
+        font-size: 1rem;
+    }
+    #info-display-4 div{
+        font-size: 1rem;
+    }
+    #sulval{
+        left: 70%;
+    }
+    #emailval{
+        left: 35%;
+    }
+    #nameval{
+        left: 35%
+    }
+    #namemailbox{
+        font-size: 0.5rem
+    }
+    .options-profile{
+        font-size: 0.5rem;
+    }
+}
+@media (max-width:472px){
+    #div3head{
+        font-size: 1rem;
+    }
+    #info-display-4{
+        font-size: 1rem;
+    }
+    #info-display-4 div{
+        font-size: 1rem;
+    }
+    #sulval{
+        left: 78%;
+    }
+    #emailval{
+        left: 30%;
+    }
+    #nameval{
+        left: 30%
+    }
+    #namemailbox{
+        font-size: 0.5rem
+    }
+    .options-profile{
+        font-size: 0.5rem;
+    }
+}
+@media (max-width:420px){
+    #info-display-1{
+        font-size: 0.5rem;
+    }
+    #div3head{
+        font-size: 0.8rem;
+    }
+    #sulval{
+        left: 55%;
+    }
+    #div1head{
+        font-size:0.5rem;
+    }
+    #info-display-4{
+        font-size: 0.75rem;
+    }
+    #info-display-4 div{
+        font-size: 0.75rem;
+    }
+}

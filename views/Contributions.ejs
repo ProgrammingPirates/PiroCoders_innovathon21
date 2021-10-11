@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%=locals.title%></title>
+    <link rel="stylesheet" type="text/css" href="/css/CreateContri.css">
+</head>
+<body>
+    <header id="header">
+        <a href="/">
+            <img id="logo-header" src="/mediafiles/logo.png">
+        </a>
+    </header>
+    <main>
+        <div id="form-area">
+            <div id="heading">Create Contributions</div>
+            <div id="matter-area">
+                <form method="POST" action="/addnewcontributions" style="display: flex;">
+                    <div id="datainfo">
+                        <span id="spanhead">Basic info</span>
+                        <span style="top: 20%;">Name: <%=user.name%></span>
+                        <span style="top: 35%;">Mail: <%=user.email%></span>
+                        <div id="typechoose" style="top: 50%;">
+                            <span>
+                                Type of contribution:
+                            </span><br><br>
+                            <input type="radio" id="blog" name="type" value="1">
+                            <label for="blog">Blog</label><br>
+                            <input type="radio" id="testimonial" name="type" value="2" required>
+                            <label for="testimonial">Testimonial</label><br>
+                            <input id="title-input" type="text" placeholder="Title" name="title" required>
+                            <input type="submit" id="submit-butt">
+                        </div>
+                    </div>
+                    <div id="Contrimatter">
+                        <textarea id="contri-input" name="message" placeholder="Type your content here" required></textarea>
+                    </div>    
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

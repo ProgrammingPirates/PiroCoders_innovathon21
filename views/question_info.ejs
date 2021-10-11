@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%=locals.title%></title>
+    <link rel="stylesheet" type="text/css" href="/css/CreateContri.css">
+    <style>
+        table, td, th {
+        border: 1px solid white;
+        text-align: center;
+        }
+        textarea {
+            resize: none;
+        }
+        table {
+        width: 80%;
+        border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <a href="/">
+            <img id="logo-header" src="/mediafiles/logo.png">
+        </a>
+    </header>
+    <div style="color: white; display: flex; height: 36.8rem;">
+        <div style="color: black; background-color: darkcyan; height: 100%; width:50%;">
+            <div>
+                <h1 style="text-align: center;"><%=question.Name%></h1>
+            </div>
+            <p style="font-size: 2rem; position: relative; left: 3%;"><%=question.Problem_Statement%></p>
+            <div style="position: relative; left: 3%;">
+                <h3>Input Format: </h3> An integer N (1 ≤ N ≤ 100).
+                <h3>Output Format: </h3> Print "Even" if N is even and "Odd" if N is odd.
+
+                <h2>
+                    Sample Test Case:
+                </h2>
+                <h3>Input: </h3><%=question.Test_cases[0].Input%>
+                <h3>Output: </h3><%=question.Test_cases[0].Output%>
+            </div>
+        </div>
+        <div style="background-color: black; height: 100%; width:51%">
+            <form method="POST" action="/submit_code/contests/<%=contest.id%>/">
+                <span id="choosehead" style="color: black ;position: absolute; left: 1.5%; top: 90%;">
+                    <label for="lang">Choose a language:</label>
+                </span>
+                    <select name="lang" id="lang" style="position: absolute; top: 90%; left: 10%;">
+                        <option value="python3">Python3</option>
+                        <option value="python2">Python2</option>
+                        <option value="cpp14">C++ 14 gcc 5.3.0</option>
+                        <option value="c">C gcc 5.3.0</option>
+                        <option value="java">Java</option>
+                        <option value="kotlin">Kotlin</option>
+                        <option value="nodejs">Nodejs</option>
+                        <option value="swift">swift</option>
+                    </select>
+            <p style="position: absolute;font-size: 1.5rem; top: 19%; left: 75%;">IDE</p>
+            <textarea spellcheck="false" required onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}" id="content" name="message" rows="38" cols="100" style="background-color: black; color: white; height: 34.5rem; width: 48rem; position: absolute; top: 26%;"></textarea>
+                
+                    <input type="submit" style="padding: 0% 0%; left:33%; top: 88%; color: black; border-color: black;">
+                    <input type="text" style="position: absolute; left: 1%; top: 1%; display: none;" value="<%=question._id%>" name="question_id">
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript">
+        document.getElementsByTagName('textarea')[0].spellcheck = false;
+        document.getElementById('submit-ide').addEventListener("click",function(){
+if(document.getElementsByTagName('textarea')[0].value==""){
+    window.alert("Empty submission")
+}
+});
+    </script>
+</body>
+</html>

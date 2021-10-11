@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title><%=locals.title%></title>
+    <link rel="icon" href="/mediafiles/logo.png" type="image/gif" sizes="16x16">
+    <link rel="stylesheet" type="text/css" href="/css/layout.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body style="background-color: rgb(38, 70, 111); color: rgb(168, 136, 255);">
+    <div class="preload">
+        <div class="loader" style="text-align:center; background-color: rgb(38, 70, 111); color: rgb(168, 136, 255);">
+            <i class="fas fa-hourglass-half fa-3x"></i>
+        </div>
+    </div>
+    <main id="main" style="opacity: 0; pointer-events: none;">
+        <%-body%>
+    </main>
+    <div id="flashmessage1" style="display: none;"><%=flash.success%></div>
+    <div id="flashmessage2" style="display: none;"><%=flash.error%></div> 
+    <script type="text/javascript">
+        window.addEventListener('load', function(){
+            setTimeout(function(){
+                const preload=document.querySelector('.preload')
+                preload.classList.add('preload-finish')
+                // console.log("Here")
+                document.getElementById('main').style.opacity=1
+                document.getElementById('main').style.pointerEvents="unset"
+            },1000)
+
+        })
+    </script>
+    <script>
+        var flashmessage1=document.getElementById('flashmessage1').innerText
+        var flashmessage2=document.getElementById('flashmessage2').innerText
+        <% if(flash.success&&flash.success.length>0){%>  
+            console.log(flashmessage1)
+            new Noty({
+                theme: 'sunset',
+                text: flashmessage1,
+                type: 'success',
+                layout: 'topRight',
+                timeout: 2000
+            }).show();
+        <%}%>
+        <% if(flash.error&&flash.error.length>0){%>
+            console.log(flashmessage2)
+            new Noty({
+                theme: 'sunset',
+                text: flashmessage2,
+                type: 'error',
+                layout: 'topRight',
+                timeout: 2000
+            }).show();
+        <%}%>
+    </script>
+
+</body>
+</html>

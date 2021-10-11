@@ -1,0 +1,156 @@
+#header{
+    text-align: center;
+}
+#logo-header{
+    height: 11rem;
+}
+#logout-symbol, #profile-self-symbol{
+    color: white;
+    position: absolute;
+    top: 9%;
+}
+#logout-symbol{
+    left: 95%;
+}
+#profile-self-symbol{
+    left: 90%;
+}
+#content-area-profile{
+    height: calc(100vh - 11.3rem);
+    background: #ffa500a8;
+}
+.options-profile{
+    color: white;
+    font-size: 2rem;
+}
+.options-profile{
+    height: 8.2vh;
+    padding-top: 2.5vh;
+    text-align: center;
+    cursor: pointer;
+}
+.options-profile:hover{
+    background-color: rgb(103,103,183);
+    border: 1px solid white;
+}
+#info-display-1 div{
+    font-size: 1.5rem;
+    position: absolute;
+}
+#profile-menu a{
+    color: white;
+    text-decoration: none;
+}
+#info-area-submsiion div{
+    color: white;
+    font-size: 1.5rem;
+    position: absolute;
+    left:8%;
+}
+#lang{
+    color: white;
+    font-size: 1.5rem;
+    position: absolute;
+    left: 45%;
+}
+#langu{
+    top: 20%; left: 43%;
+    position: absolute;
+    font-size: 1.5rem;
+}
+#mainhead{
+    color: white; position: absolute; font-size: 2rem; left: 44%; top: 24.5%;
+}
+#code-disp{
+    color: white;
+    background: rgb(168, 136, 255);
+    position: absolute;
+    height: 82%;
+    width: 90%;
+    top: 13%;
+    left: 5%;
+    font-size: 1.3rem;
+    border: 0;
+    padding: 0;
+}
+#namemailbox{
+    color: rgb(38, 70, 111); font-size: 1.4rem; text-align: center;
+}
+#code-disp:focus{
+    outline: none;
+}
+#outputdisp{
+    top: 80%;
+}
+#info-head{
+    color: white; 
+    position: absolute; 
+    font-size: 2rem; 
+    top: 2%; 
+    left: 35%;
+}
+#code-head{
+    color: white; 
+    position: absolute; 
+    font-size: 2rem; 
+    left: 48%; 
+    top: 2%;
+}
+@media(max-width:1000px){
+    #langu{
+        left: 51%;
+    }
+}
+@media (max-width:1000px){
+    #namemailbox{
+        font-size: 0.9rem
+    }
+    .options-profile{
+        font-size: 1rem;
+    }
+}
+@media (max-width:590px){
+    #namemailbox{
+        font-size: 0.5rem
+    }
+}
+@media (max-width:540px){
+    .options-profile{
+        font-size: 0.5rem;
+    }
+}
+@media(max-width:950px){
+    #langu{
+        top:29%;
+        left: 29%;
+    }
+}
+@media(max-width:860px){
+    #info-area-submsiion div{
+        font-size:1rem ;
+    }
+    #info-area-submsiion span{
+        font-size:1rem ;
+    }
+    #code-head{
+        font-size: 1rem;
+    }
+}
+@media(max-width:610px){
+    #mainhead{
+        left: 30%;
+    }
+}
+@media(max-width:500px){
+    #outputdisp{
+        top: 85%;
+    }
+    #mainhead{
+        font-size: 1rem;
+    }
+}
+@media(max-width:420px){
+    #outputdisp{
+        top: 95%;
+    }
+}

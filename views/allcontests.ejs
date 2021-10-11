@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%=locals.title%></title>
+    <link rel="stylesheet" type="text/css" href="/css/CreateContri.css">
+    <style>
+        table, td, th {
+        border: 1px solid white;
+        text-align: center;
+
+        }
+        table {
+        width: 80%;
+        border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <a href="/">
+            <img id="logo-header" src="/mediafiles/logo.png">
+        </a>
+    </header>
+    <div style="color: white; display: flex; justify-content: center;">
+        <table>
+            <tr>
+                <th>Contest Name</th>
+                <th>Contest Start Time</th>
+                <th>Contest End Time</th>
+                <th>Date</th>
+                <th>Number of Questions</th>
+                <th>Number of Contests</th>
+            </tr>
+            <%for(let i of contests){%>
+                <tr>
+                    <td>
+                        <a style="color: white;" href="/contest/<%=i.id%>">
+                            <%=i.Round_name%>
+                        </a>
+                    </td>
+                    <td><%=i.start_time%></td>
+                    <td><%=i.end_time%></td>
+                    <td><%=i.date%></td>
+                    <td><%=i.questions.length%></td>
+                    <td><%=i.Contestants.length%></td>
+                </tr>
+            <%}%>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%=locals.title%></title>
+    <link rel="stylesheet" type="text/css" href="/css/CreateContri.css">
+    <style>
+        table, td, th {
+        border: 1px solid white;
+        text-align: center;
+
+        }
+        table {
+        width: 80%;
+        border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <a href="/">
+            <img id="logo-header" src="/mediafiles/facebook_cover_photo_2.jpg">
+        </a>
+    </header>
+    <div style="color: white; display: flex; justify-content: center;">
+        <table>
+            <tr>
+                <th>Submission</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+            <%for(let i of submissions){%>
+                <tr>
+                    <td>
+                        <a style="color: white;" href="/contest/<%=i.id%>">
+                            <%=i.id%>
+                        </a>
+                    </td>
+                    <td><%=i.createdAt%></td>
+                    <td><%=i.status%></td>
+                </tr>
+            <%}%>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">    
+    <link rel="stylesheet" type="text/css" href="/css/login1.css">
+    <style>
+        ul {
+            margin-left: 36%;
+            padding: 0;
+            list-style-type: none;
+            display: inline;
+        }
+        li {
+            margin-left: -0.1%;
+            /* display: inline-flex; */
+            font-size: 25px;
+            width: 8em;
+            height: 2em;
+            color: orange;
+            border-left: 0.08em solid;
+            position: relative;
+            margin-top: 0.8em;
+            cursor: pointer;
+        }
+        li a span{
+            border-radius: 5px;
+        }
+        
+        li::before,
+        li::after
+        {
+            content: '';
+            position: absolute;
+            width: inherit;
+            border-left: inherit;
+            z-index: -1;
+        }
+        
+        li::before {
+            height: 80%;
+            top: 10%;
+            left: calc(-0.15em - 0.08em * 2);
+            filter: brightness(0.8);
+        }
+        
+        li::after {
+            height: 60%;
+            top: 20%;
+            left: calc(-0.15em * 2 - 0.08em * 3);
+            filter: brightness(0.6);
+        }
+
+        li span {
+
+            margin-left: -1%;
+            padding-right: 5%;
+            font-size: 75%;
+            text-align: center;
+            position: relative;
+            height: 120%;
+            top: -10%;
+            box-sizing: border-box;
+            border: 0.08em solid;
+            background-color: rgb(12,16,39);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: cursive;
+            text-transform: capitalize;
+            transform: translateX(calc(-0.15em * 3 - 0.08em * 2));
+            transition: 0.3s;
+        }
+        
+        li:hover span {
+            transform: translateX(0.2em);
+        }
+        
+    </style>
+</head>
+<body>
+    <header id="header" style="text-align: center;">
+        <a href="/">
+        <img id="logo-header" src="/mediafiles/facebook_cover_photo_2.jpg" style="height: 22rem;">
+        </a>
+    </header>
+    <div style="display: inline-flex; margin-top: 1%;">
+        <div id="localauthentication">
+            <form method="POST" action="/checkuser" style="position: absolute; top: 55%; left: 39%;">
+                <input type="email" name="email" placeholder="Email-Id">
+                <input type="password" name="password" placeholder="Password" style="position: absolute; top: 125%;">
+                <br>
+                <input type="submit" id="sumbit-button" style="position: absolute; top: 230%;">
+            </form>
+            <div id="link1">
+                <a href="/signup" style="color: orange;">New User</a>
+            </div>
+            <br>
+            <br>
+            <div id="link2">
+                <a href="/" style="color: orange;">Back to home Page</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

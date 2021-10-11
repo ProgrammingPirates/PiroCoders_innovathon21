@@ -1,0 +1,138 @@
+#header{
+    text-align: center;
+}
+#logo-header{
+    height: 10rem;
+}
+#form-area{
+    background-color: rgb(168, 136 , 255);
+    color: white;
+    height: calc(100vh - 10.3rem);
+    width: 100vw;
+}
+#heading{
+    text-align: center;
+    font-size: 2rem;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+#matter-area{
+    width: 81%;
+    background-color: orange;
+    height: 68%;
+    position: absolute;
+    top: 30%;
+    left: 9.2%;
+    border: solid black 5px;
+}
+#datainfo, #Contrimatter{
+    width: 50%;
+    height: 68.05vh;
+    /* background-color: blue; */
+}
+#Contrimatter{
+    border-left: 2.5px solid black;
+    position: absolute;
+    left: 50%;
+}
+#datainfo span, #typechoose{
+    position: absolute;
+    font-size: 2rem;
+    left: 5%;
+}
+body input[type=text] {
+    color: white;
+    background-color: inherit;
+    border: none;
+    border-bottom: 1px solid white;
+}
+body input[type=submit] {
+    background-color: inherit;
+    border: 3px solid  rgb(168, 136 , 255);
+    padding: 5.35% 10.7%;
+    cursor: pointer; 
+    color: rgb(168, 136 , 255);
+    position: absolute;
+    font-size: 2rem;
+}
+input[type=text]:focus{
+    outline: none;
+}
+body ::placeholder {
+    color: white; 
+}
+#title-input{
+    position: absolute;
+    width: 130%;
+    text-align: center;
+    top: 120%;
+    left: 60%;
+}
+#contri-input{
+    height: 98.5%;
+    width: 98.5%;
+    background: inherit;
+    border: none;
+    resize: none;
+    color: white;
+}
+#contri-input:focus{
+    outline: none;
+}
+#submit-butt{
+    top: 39%; 
+    left: 177%;
+}
+#spanhead{
+    top: 7%; 
+    left: 16%; 
+    font-size: 2.5rem;
+}
+@media (max-width:1265px){
+    #submit-butt{
+        top: 39%; 
+        left: 113%;
+    }    
+}
+@media (max-width:952px){
+#datainfo span, #typechoose{
+    font-size: 1.5rem;    
+}
+}
+@media (max-width:805px){
+    #submit-butt{
+        top: 153%; 
+        left: 50%;
+    }
+    #title-input{
+        top: 120%;
+        left: 29%;        
+    }
+}
+@media (max-width:670px){
+    #datainfo span, #typechoose{
+        font-size: 1rem;    
+    }
+    #spanhead{
+        font-size:1.25rem;
+    }
+}
+@media(max-width:500px){
+    #submit-butt{
+        top: 153%; 
+        left: 0%;
+    }
+    #title-input{
+        width: 100%;
+        top: 120%;
+        left: 0%;        
+    }
+}
+@media (max-width:446px){
+    #datainfo span, #typechoose{
+        font-size: 0.5rem;
+    }
+    #submit-butt{
+        top: 183%; 
+    }
+}

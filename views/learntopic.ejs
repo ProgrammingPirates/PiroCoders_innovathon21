@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%=locals.title%></title>
+    <link rel="stylesheet" type="text/css" href="/css/learntopic.css">
+ 
+</head>
+<body>
+    <header id="header">
+        <a href="/">
+            <img id="logo-header" src="/mediafiles/logo.png">
+        </a>
+    </header>
+    <main>
+        <div class="topic-display">
+            <div id="topic-name">
+                <%=locals.title%>
+            </div>
+            <textarea  disabled id="first-half">
+                <%=concept.message%>
+            </textarea>
+            <div  id="second-half">
+                <img src="<%=concept.image%>" style="width: 80%; position: absolute; top: 10%; left: 10%;">
+                <br>
+                <iframe src="https://www.youtube.com/embed/<%=concept.link%>"></iframe>
+                <script>
+                    document.getElementsByTagName('iframe')[0].height=315*window.outerHeight/754
+                    document.getElementsByTagName('iframe')[0].width=315*window.outerWidth/754
+                </script>
+            </div>
+        </div>
+    </main>
+    <script>
+        document.getElementById("topic-name").innerText=document.getElementById("topic-name").innerText.charAt(0).toUpperCase()+document.getElementById("topic-name").innerText.slice(1)
+    </script>
+    <script>
+                    var temp=document.getElementById("first-half").value
+                    while(temp[0]==" "){
+                        temp=temp.substring(1,temp.length)
+                    }
+                    document.getElementById("first-half").value=temp
+
+                </script>
+</body>
+</html>

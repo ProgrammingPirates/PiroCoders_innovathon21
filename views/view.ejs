@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%=locals.title%></title>
+    <link rel="stylesheet" type="text/css" href="/css/view.css">
+</head>
+<body>
+    <header id="header">
+        <a href="/">
+            <img id="logo-header" src="/mediafiles/logo.png">
+        </a>
+        <div id="logout-symbol">
+            <a href="/logout">
+                <i class="fas fa-sign-out-alt fa-2x" style="color: white;"></i>
+            </a>
+        </div>
+    </header>
+    <main>
+        <div style="background-color: rgb(168,136,255); height: 100vh; width: 18%; position: absolute; top: 0%;">
+            <div style="background-color: orange; height: 22%; width: 100%; position: absolute; top: 0%;">
+                <div id="namemailbox">
+                    <p><%=user.name%><br><%=user.email%></p>
+                </div>
+            </div>
+            <div id="profile-menu">
+                <div id="option-1" class="options-profile" style="top: 29%; height: 19vh;">
+                    Basic
+                </div>
+                <a href="/profile">
+                    <div id="option-1" class="options-profile" style="top: 29%;">
+                        Basic
+                    </div>
+                </a>
+            <a href="/ide">
+                <div id="option-2" class="options-profile" style="top: 39%; background-color: rgb(103,103,183);">
+                        Practice
+                </div>
+            </a>
+            <a href="/profile/Doubts">
+                <div id="option-3" class="options-profile" style="top: 59%;">
+                        Doubts
+                </div>
+            </a>
+            <a href="/profile/Interests">
+                <div id="option-4" class="options-profile" style="top: 69%;">
+                        Interests
+                </div>
+            </a>
+            <a href="/profile/Contributions">
+                <div id="option-5" class="options-profile" style="top: 79%;">
+                        Contributions
+                </div>
+            </a>
+            <a href="/profile/Edit-info">
+                <div id="option-6" class="options-profile" style="top: 89%;">
+                        Edit-info
+                </div>
+            </a>
+            <a href="/learn">
+                <div id="option-6" class="options-profile" style="top: 89%;">
+                    Learn about a topic
+                </div>
+            </a>
+            </div>
+        </div>
+        <div id="content-area-profile">
+            <div id="mainhead">Your Submission Details:</div>
+            <div id="info-area-submsiion" style="overflow:scroll;background-color: rgb(168,136,255); position: absolute; height: 66%; width: 28%; top: 31%; left: 20%; color: white;">
+                <div id="info-head">Basic Info</div>
+                <div style="top: 20%;">
+                    Language: 
+                </div>
+                <span id="langu">
+                    <%=sub.lang%>
+                </span>
+                <script>
+                    var code=parseInt(document.getElementById("lang").innerText);
+                    if(code==116){
+                        document.getElementById("lang").innerText="Python3"
+                    }
+                    if(code==4){
+                        document.getElementById("lang").innerText="Python2"
+                    }
+                    if(code==44){
+                        document.getElementById("lang").innerText="C++"
+                    }
+                    if(code==11){
+                        document.getElementById("lang").innerText="C"
+                    }
+                    if(code==10){
+                        document.getElementById("lang").innerText="Java"
+                    }
+                    if(code==47){
+                        document.getElementById("lang").innerText="Kotlin"
+                    }
+                    if(code==56){
+                        document.getElementById("lang").innerText="Nodejs"
+                    }
+                    if(code==112 ){
+                        document.getElementById("lang").innerText="Javascript"
+                    }
+                </script>
+                <div style="top: 40%;">
+                    Submission Id: <%=sub.id%>
+                </div>
+                <div style="top: 60%;">
+                    Submission Time: <%=sub.createdAt%>
+                </div>
+                <div id="outputdisp">
+                    Output: <%=sub.result%>
+                </div>
+            </div>
+            <div id="code-submitted" style="background-color: rgb(168,136,255); position: absolute; height: 66%; width: 49%; top: 31%; left: 49%;">
+                <div id="code-head">Code:</div>
+                <textarea id="code-disp" disabled style="resize: none;">
+                <%=sub.code%>
+                </textarea>
+                <script>
+                    var temp=document.getElementById("code-disp").value
+                    while(temp[0]==" "){
+                        temp=temp.substring(1,temp.length-1)
+                    }
+                    document.getElementById("code-disp").value=temp
+
+                </script>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

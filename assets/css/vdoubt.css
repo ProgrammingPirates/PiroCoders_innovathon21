@@ -1,0 +1,37 @@
+#doubt-topic{
+    top: 20%; position: absolute;font-size: 1.5rem;left: 8%;
+}
+#doubt-date{
+    top: 60%; position: absolute;font-size: 1.5rem;left: 8%;
+}
+#doubt-id{
+    top: 40%; position: absolute;font-size: 1.5rem; left: 8%;
+}
+#doubt-status{
+    top: 80%; position: absolute;font-size: 1.5rem;left: 8%;
+}
+#doubt-main-head{
+    color: white; position: absolute; font-size: 2rem; left: 44%; top: 24.5%;
+}
+#replies-head{
+    color: white; position: absolute; font-size: 2rem; left: 48%; top: 2%;
+}
+@media(max-width:1073px){
+    #doubt-status, #doubt-id, #doubt-date, #doubt-topic{
+        font-size: 1rem;
+    }
+    #basicinfohead, #replies-head{
+        font-size: 2rem;
+    }
+}
+@media(max-width:706px){
+    #basicinfohead, #replies-head{
+        font-size: 1.5rem;
+    }
+    #doubt-status, #doubt-id, #doubt-date, #doubt-topic{
+        font-size: 0.6rem;
+    }
+    #doubt-main-head{
+        font-size: 1rem;
+    }
+}

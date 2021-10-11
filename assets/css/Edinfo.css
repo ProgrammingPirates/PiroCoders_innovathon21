@@ -1,0 +1,162 @@
+body {
+  background-image: url("../mediafiles/edit_info2.jpeg");
+  background-repeat: no-repeat;
+  background-size: 100%;
+  font-size: x-large;
+  
+}
+
+
+#header {
+  text-align: center;
+}
+#logo-header {
+  height: 11rem;
+}
+#logout-symbol,
+#profile-self-symbol {
+  color: white;
+  position: absolute;
+  top: 9%;
+}
+#logout-symbol {
+  left: 95%;
+}
+#profile-self-symbol {
+  left: 90%;
+}
+#content-area-profile {
+  /* overflow: scroll; */
+  height: calc(100vh - 11.3rem);
+}
+.options-profile {
+  color: white;
+  font-size: 2rem;
+}
+.options-profile {
+  height: 8.2vh;
+  padding-top: 2.5vh;
+  text-align: center;
+  cursor: pointer;
+}
+.options-profile:hover {
+  background: radial-gradient(ellipse at bottom, #0d1e31, #111);
+  border: 1px solid white;
+}
+#info-display-1 div {
+  font-size: 2.5rem;
+  position: absolute;
+}
+#profile-menu a {
+  color: white;
+  text-decoration: none;
+}
+.posts {
+  background: radial-gradient(ellipse at bottom, #0d1e31, #111);
+  margin-left: 20%;
+  width: 77%;
+  min-height: 10%;
+  color: white;
+  padding-left: 1%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+}
+.posts-title {
+  font-size: 2.4rem;
+}
+.posts-author-name {
+  font-size: 1.6rem;
+}
+.posts-main-content {
+  font-size: 1.4rem;
+}
+input {
+  position: absolute;
+}
+body input[type="text"],
+input[type="email"],
+input[type="password"] {
+  color: white;
+  background-color: inherit;
+  border: none;
+  border-bottom: 1px solid white;
+}
+body input[type="submit"] {
+  background-color: inherit;
+  border: 3px solid white;
+  /* padding: 5.35% 10.7%; */
+  background: radial-gradient(ellipse at bottom, #0d1e31, #111);
+  cursor: pointer;
+  position: absolute;
+  font-size: 2rem;
+  color: white;
+ 
+}
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  outline: none;
+}
+body ::placeholder {
+  color: white;
+}
+#namein {
+  top: 47%;
+  left: 37%;
+}
+#mailin {
+  top: 47%;
+  left: 66%;
+}
+#pass1in {
+  top: 70%;
+  left: 37%;
+}
+#pass2in {
+  top: 70%;
+  left: 66%;
+}
+#namemailbox {
+  color: rgb(38, 70, 111);
+  font-size: 1.4rem;
+  text-align: center;
+}
+@media (max-width: 1000px) {
+  #namemailbox {
+    font-size: 0.9rem;
+  }
+  .options-profile {
+    font-size: 1rem;
+  }
+}
+@media (max-width: 590px) {
+  #namemailbox {
+    font-size: 0.5rem;
+  }
+  #namein {
+    top: 47%;
+    left: 28%;
+  }
+  #mailin {
+    top: 47%;
+    left: 66%;
+  }
+  #pass1in {
+    top: 70%;
+    left: 28%;
+  }
+  #pass2in {
+    top: 70%;
+    left: 66%;
+  }
+}
+@media (max-width: 540px) {
+  .options-profile {
+    font-size: 0.5rem;
+  }
+}
+@media (max-width: 485px) {
+  input {
+    font-size: 0.5rem;
+  }
+}

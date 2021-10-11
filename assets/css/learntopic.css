@@ -1,0 +1,48 @@
+#header{
+    text-align: center;
+}
+#logo-header{
+    height: 10rem;
+}
+.topic-display{
+    background-color: rgb(168, 136 , 255);
+    color: white;
+    height: calc(100vh - 10.3rem);
+    width: 100vw;
+    display: flex;
+}
+#first-half, #second-half{
+    background-color: white;
+    height: 70vh;
+    position: absolute;
+    width: 48vw;
+    top: 29%;
+    overflow: scroll;
+}
+#first-half{
+    border: 3px solid black;
+    border-radius: 7px;
+    font-style: italic;
+    font-size: 1.5rem ;
+    color: black;
+    left: 1%;
+}
+#second-half{
+    left: 51%;
+    border: 3px solid black;
+    border-radius: 7px;
+}
+#topic-name{
+    font-size: 2.5rem;
+    text-align: center;
+    width: 100%;
+}
+iframe{
+    position: absolute; top: 70%; left: 10%;
+}
+@media(max-width:900px){
+    iframe{
+        top: 57%;
+        left: 3%;
+    }
+}

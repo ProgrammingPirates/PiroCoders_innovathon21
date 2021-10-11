@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%=locals.title%></title>
+    <link rel="stylesheet" type="text/css" href="/css/doubts.css">
+    <link rel="stylesheet" type="text/css" href="/css/vdoubt.css">
+</head>
+<body>
+    <header id="header">
+        <a href="/">
+            <img id="logo-header" src="/mediafiles/logo.png">
+        </a>
+        <div id="logout-symbol">
+            <a href="/TA/logout">
+                <i class="fas fa-sign-out-alt fa-2x" style="color: white;"></i>
+            </a>
+        </div>
+    </header>
+    <main>
+        <div id="content-area-profile" style="color:orange;">
+            
+            <div id="doubt-main-head">Doubt Details:</div>
+            <div id="info-area-submsiion" style="background-color: rgb(168,136,255); position: absolute; height: 66%; width: 28%; top: 31%; left: 20%; color: white;">
+                <div id="basicinfohead">Basic Info</div>
+                <div id="doubt-topic">
+                    Topic: <%=doubt.title%>
+                </div>
+                <div id="doubt-id">
+                    Doubt Id: <%=doubt.id%>
+                </div>
+                <div id="doubt-date">
+                    Asked on: <%=doubt.createdAt%>
+                </div>
+                <div id="doubt-status">
+                    Status: <span id="status"><%=doubt.status%></span>
+                </div>
+                <script>
+                    console.log(document.getElementById('status').innerText==1)
+                    if(document.getElementById('status').innerText==1)
+                    document.getElementById('status').innerText="Ongoing"
+                    else
+                        document.getElementById('status').innerText="Resolved"
+                </script>
+            </div>
+            <div id="code-submitted" style="background-color: rgb(168,136,255); position: absolute; height: 66%; width: 49%; top: 31%; left: 49%;">
+                <div id="replies-head">Replies:</div>
+                <div id="replies_container" style="position: absolute; top: 19%; left: 21%; overflow: scroll; width: 62%; height: 52%; background: white; color: orange;">
+                    <%if(doubt.messages!=undefined){%>
+                            <%for(var i=0;i<doubt.messages.length;i++){%>
+                                <div>
+                                    <div><%=i+1%>) <%=doubt.messages[i].author.name%>: <%=doubt.messages[i].content%></div>
+                                </div>
+                            <%}%>
+                    <%}%>
+                </div>
+                <div id="add_reply">
+                    <form action="/profile/doubt/<%=doubt.id%>/addreply" method="POST">
+                        <input type="text" name="added_message" required placeholder="Type your message here....." style="background:white; position: absolute; top: 75%; width: 50%; left: 25%; color: orange;">
+                        <input type="submit">
+                    </form>
+                </div>
+                
+            </div>
+
+        </div>
+    </main>
+</body>
+</html>

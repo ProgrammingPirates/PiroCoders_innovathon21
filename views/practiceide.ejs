@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%=locals.title%></title>
+    <link rel="stylesheet" type="text/css" href="css/practiceide.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Code+Pro:ital,wght@1,500&display=swap');
+        </style>
+    
+</head>
+<body>
+    
+    <form method="POST" action="/ide/submit">
+        <div id="ide-settings">
+            <div id="ide-logo-section">
+                <a href="/">
+                <img id="ide-logo" src="/mediafiles/logo.png">
+                </a>
+            </div>
+            <div id="settings-area">
+                <h2 id="headingssettings">Choose the settings</h2>
+                <h2 id="problemset">
+                    <a style="text-decoration: none; color: rgb(168, 136, 255);" href="https://drive.google.com/file/d/17IQoYKqyUzBatmofpf9PF3elcZOAol3v/view?usp=sharing" target="_blank">Problemset</a>
+                </h2>
+                <span id="choosehead">
+                    <label for="lang">Choose a language:</label>
+                </span>
+                    <select name="lang" id="lang">
+                        <option value="python3">Python3</option>
+                        <option value="python2">Python2</option>
+                        <option value="cpp14">C++ 14 gcc 5.3.0</option>
+                        <option value="c">C gcc 5.3.0</option>
+                        <option value="java">Java</option>
+                        <option value="kotlin">Kotlin</option>
+                        <option value="nodejs">Nodejs</option>
+                        <option value="swift">swift</option>
+                    </select>
+                    <input type="submit" id="submit-ide" value="Compile+Run">
+                <h2 style="position: absolute; top: 38%; left: 1%;">Input</h2>
+            <textarea spellcheck="false" onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}" id="input" name="input" rows="10" cols="10" style="height: 20%; width: 27.5%; border: grey solid 3px; position: absolute; top: 48%; left: 1%;"></textarea><br>
+            </div>
+            <h2 id="result-head">Result:</h2>
+            <textarea spellcheck="false" disabled id="output" rows="10" cols="10" style="height: 20%; width: 27.5%; border: grey solid 3px; position: absolute; top: 78%; left: 1%;"></textarea><br>
+            <%if(subid){%>
+                <div style="position: absolute; top: 74.5%; left: 6%; font-size: 131%;" id="subid">
+                    Submission Id-<%=subid%>
+                </div>
+                <script src="/js/outputdataide.js">
+                </script>
+            <%}%>
+            </div>
+        </div>
+        
+        
+        <div id="ide-content-area" >
+            <h1 style="text-align: center;">Compiler</h1>
+            <textarea spellcheck="false" class="compilerArea" required onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}" id="content" name="message" rows="48" cols="30"></textarea>
+        </div>
+        <script type="text/javascript">
+            document.getElementById('submit-ide').addEventListener("click",function(){
+    if(document.getElementsByTagName('textarea')[2].value==""){
+        window.alert("Empty submission")
+    }
+});
+        </script>
+    </form>
+    <%if(subid){%>
+        <div id="2ndpreloader" style="height: 100%; width: 100%; position: absolute; z-index: 1; background-color: rgb(57, 173, 209); top: 0%;">
+            <img src="/mediafiles/cbf8e530960173.563a91d812312.gif" style="position: absolute; top: 20.2%; left: 30.49%;">
+            <div id="preloadertext" style="color: white; font-size: 2rem; position: absolute; top: 78%;left: 30%;">Compiling...Runninng...And Generating output</div>
+        </div>
+        <script>
+            setTimeout(function(){
+            document.getElementById('2ndpreloader').style.display="none"; 
+            },10000)
+        </script>
+    <%}%>
+</body>
+</html>
