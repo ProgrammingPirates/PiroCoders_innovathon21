@@ -8,9 +8,9 @@ const session=require('express-session')
 const expresslayout=require('express-ejs-layouts')
 const db=require('./config/mongoose')
 const flashm = require('./config/middleware');
-const MongoStore=require('connect-mongo')(session);
 const submissionm=require('./models/submissions')
 const conceptm=require('./models/concept')
+const Tam=require('./models/TA')
 const userm=require('./models/users')
 const contestm=require('./models/contests')
 const questionm=require('./models/questions')
@@ -33,6 +33,7 @@ app.use(expresslayout)
 app.use(cookiep())
 app.use(express.static('assets'))      //for static files
 app.use(express.urlencoded());         // for form data only
+const MongoStore=require('connect-mongo')(session)
 app.use(session({
     name:'loginsessions',
     secret:'7237279abaca1981beee2bc5ca804aae',
@@ -66,6 +67,7 @@ app.get('/login/auth/github',passport.authenticate('github', { scope: ['user','e
 app.get('/login/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }),function(req, res) {
     return res.redirect('/profile')
 });
+
 app.get("/", async function(req,res){
     try{
         return res.render('home',{
@@ -88,6 +90,104 @@ app.get("/accountsetup", async function(req,res){
     catch(err){
         console.log(err)
     }
+})
+app.get("/ide", async function(req,res){
+    try{
+        if(req.cookies.sid!="undefined"){
+            var subid=req.cookies.sid
+            res.clearCookie("sid")
+            return res.render('practiceide',{
+                title:"Codekaksha Ide", 
+                subid:subid
+            })
+        }
+        else
+        return res.render('practiceide',{
+            title:"Codekaksha Ide"
+        })
+    }
+    catch(err){
+        console.log(err)
+    }
+})
+app.post("/ide/submit", function(req,res){
+    var stat;
+    console.log(req.body)
+    var program = {
+        script : req.body.message,
+        stdin:req.body.input,
+        language: req.body.lang,
+        versionIndex: "1",
+        clientId: tokeninput.ideapiid,
+        clientSecret:tokeninput.ideapikey
+    };
+    request({
+        url: 'https://api.jdoodle.com/v1/execute',
+        method: "POST",
+        json: program
+    },
+    async function (error, response, body) {
+        var newsub;
+        console.log(body)
+        if(req.cookies.cookies==undefined){        
+            newsub=await submissionm.create({
+                input:req.body.input,
+                result:body.output,
+                code:req.body.message,
+                lang:req.body.lang
+            })
+        }
+        else{
+            var idd=req.cookies.cookies
+            var found1=await userm.findById(idd);
+            var newsub=await submissionm.create({
+                input:req.body.input,
+                result:body.output,
+                code:req.body.message,
+                lang:req.body.lang,
+                writer:found1
+            })
+            found1.submissions.push(newsub)
+            if(req.body.lang=="python3"){
+                found1.langcount[0][0]++;
+            }
+            if(req.body.lang=="python2"){
+                found1.langcount[0][1]++;
+            }
+            if(req.body.lang=="cpp14"){
+                found1.langcount[0][2]++;
+            }
+            if(req.body.lang=="java"){
+                found1.langcount[0][3]++;
+            }
+            if(req.body.lang=="C"){
+                found1.langcount[0][4]++;
+            }
+            if(req.body.lang=="kotlin"){
+                found1.langcount[0][5]++;
+            }
+            if(req.body.lang=="nodejs"){
+                found1.langcount[0][6]++;
+            }
+            if(req.body.lang=="swift"){
+                found1.langcount[0][7]++;
+            }
+            var found2= await userm.findByIdAndUpdate(found1.id,{langcount:found1.langcount,submissions:found1.submissions})                   
+            // console.log(found2);
+        }
+        stat=newsub.id
+        // console.log(newsub)
+        await res.cookie('sid',stat)
+        return res.redirect('/ide')
+    });
+})
+app.get('/ide/submission/:id1/getdata',async function(req,res){
+    try {
+        var found= await submissionm.findById(req.params.id1)
+        return res.status(200).json(found)        
+    } catch (error) {
+        console.log(error);
+    }    
 })
 app.get('/login',async function(req,res){
     try{
@@ -222,104 +322,11 @@ app.get('/logout', async function(req,res){
     }
     return res.redirect('/login')
 })
-app.get("/ide", async function(req,res){
-    try{
-        if(req.cookies.sid!="undefined"){
-            var subid=req.cookies.sid
-            res.clearCookie("sid")
-            return res.render('practiceide',{
-                title:"Codekaksha Ide", 
-                subid:subid
-            })
-        }
-        else
-        return res.render('practiceide',{
-            title:"Codekaksha Ide"
-        })
-    }
-    catch(err){
-        console.log(err)
-    }
-})
-app.post("/ide/submit", function(req,res){
-    var stat;
-    console.log(req.body)
-    var program = {
-        script : req.body.message,
-        stdin:req.body.input,
-        language: req.body.lang,
-        versionIndex: "1",
-        clientId: tokeninput.ideapiid,
-        clientSecret:tokeninput.ideapikey
-    };
-    request({
-        url: 'https://api.jdoodle.com/v1/execute',
-        method: "POST",
-        json: program
-    },
-    async function (error, response, body) {
-        var newsub;
-        console.log(body)
-        if(req.cookies.cookies==undefined){        
-            newsub=await submissionm.create({
-                input:req.body.input,
-                result:body.output,
-                code:req.body.message,
-                lang:req.body.lang
-            })
-        }
-        else{
-            var idd=req.cookies.cookies
-            var found1=await userm.findById(idd);
-            var newsub=await submissionm.create({
-                input:req.body.input,
-                result:body.output,
-                code:req.body.message,
-                lang:req.body.lang,
-                writer:found1
-            })
-            found1.submissions.push(newsub)
-            if(req.body.lang=="python3"){
-                found1.langcount[0][0]++;
-            }
-            if(req.body.lang=="python2"){
-                found1.langcount[0][1]++;
-            }
-            if(req.body.lang=="cpp14"){
-                found1.langcount[0][2]++;
-            }
-            if(req.body.lang=="java"){
-                found1.langcount[0][3]++;
-            }
-            if(req.body.lang=="C"){
-                found1.langcount[0][4]++;
-            }
-            if(req.body.lang=="kotlin"){
-                found1.langcount[0][5]++;
-            }
-            if(req.body.lang=="nodejs"){
-                found1.langcount[0][6]++;
-            }
-            if(req.body.lang=="swift"){
-                found1.langcount[0][7]++;
-            }
-            var found2= await userm.findByIdAndUpdate(found1.id,{langcount:found1.langcount,submissions:found1.submissions})                   
-            // console.log(found2);
-        }
-        stat=newsub.id
-        // console.log(newsub)
-        await res.cookie('sid',stat)
-        return res.redirect('/ide')
-    });
-})
-app.get('/ide/submission/:id1/getdata',async function(req,res){
-    try {
-        var found= await submissionm.findById(req.params.id1)
-        return res.status(200).json(found)        
-    } catch (error) {
-        console.log(error);
-    }    
-})
+
+
+
+
+
 app.get("/profile", async function(req,res){
     try{
         if(req.cookies.cookies||req.user){
@@ -406,7 +413,7 @@ app.get('/Create-contribution',async function(req, res){
         }
         else
         var idchoice=req.cookies.cookies
-        var found=await userm.findOne({_id:idchoice}).populate('Contribution')
+        var found=await userm.findOne({_id:idchoice})
         return res.render('Contributions',{
             title:"Create-contribution page",
             user:found
@@ -584,13 +591,13 @@ app.post('/nqzvaybtva/nqzvaybtva-purpxcnff', async function(req, res){
 })
 app.get('/sgdzclhmozmdkgnldozfdkdsyfn',async function(req,res){
     try{
-        if(req.cookies.admin==1){
+        // if(req.cookies.admin==1){
             return res.render('sgdzclhmozmdkgnldozfdkdsyfn')
-        }
-        else{
-            req.flash('error','Well you are not allowed')
-            return res.redirect('/')
-        }
+        // }
+        // else{
+            // req.flash('error','Well you are not allowed')
+            // return res.redirect('/')
+        // }
     }
     catch(err){
         //console.log(err);
@@ -699,7 +706,7 @@ app.post('/profile/createnewdoubt', async function(req,res){
 })
 app.get('/contests', async function(req,res){
     try{
-        var found=await contestm.find({})
+        var found=await contestm.find({}).sort({_id:-1})
         return res.render('allcontests',{
             title:"Contests",
             contests:found
@@ -707,6 +714,76 @@ app.get('/contests', async function(req,res){
     }
     catch(err){
         console.log(err);
+    }
+})
+app.post('/createcontest',async function(req,res){
+    try{
+        var Created=await contestm.create({
+            Round_name:req.body.Round_name,
+            start_time:req.body.start_time,
+            date:req.body.date,
+            end_time:req.body.end_time,
+        })
+        console.log(Created)
+        return res.redirect('back');
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+app.post('/addquestionstocontests', async function(req,res){
+    try{
+        var found=await contestm.findById(req.body.contest_id)
+        var foundq=await questionm.findById(req.body.question_id)
+        var updated=await contestm.findByIdAndUpdate(req.body.contest_id,{
+            $push:{
+                questions:foundq
+            }
+        })
+        return res.redirect('back');
+    }
+    catch(err){
+        //console.log(err);
+    }
+})
+app.post('/addtcstoquestions', async function(req,res){
+    try{
+        var found=await questionm.findById(req.body.question_id)
+        var foundc=await testcasem.findById(req.body.testcase_id)
+        var updated=await questionm.findByIdAndUpdate(req.body.question_id,{
+            $push:{
+                Test_cases:foundc
+            }
+        })
+        return res.redirect('back');
+    }
+    catch(err){
+        //console.log(err);
+    }
+})
+app.post('/createquestions', async function(req,res){
+    try{
+        var Created=await questionm.create({
+            Name:req.body.Name,
+            points:req.body.points,
+            Problem_Statement:req.body.Problem_Statement
+        })
+        return res.redirect('back');
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+app.post('/createTCS', async function(req,res){
+    try{
+        var Created=await testcasem.create({
+            Input:req.body.Input,
+            Output:req.body.Output
+        })
+        return res.redirect('back');
+    }
+    catch(err){
+        //console.log(err);
     }
 })
 app.get('/contest/:contestid', async function(req,res){
@@ -747,7 +824,7 @@ app.get('/contest/:contest_id/leaderboard', async function(req,res){
         console.log(err);
     }
 })
-app.get('/contest/:contest_id/my_submissions', async function(req,res){
+app.get('/my_submissions/contest/:contest_id/', async function(req,res){
     try{
         if(req.cookies.cookies||req.user){
             if(req.user){
@@ -756,7 +833,7 @@ app.get('/contest/:contest_id/my_submissions', async function(req,res){
                 console.log(idchoice, "herlllo")
                 res.cookie('cookies',idchoice);
             }
-            var found=await contestm.findById(req.params.contest_id).populate('questions').populate('submissions')
+            var found=await contestm.findById(req.params.contest_id).populate('questions').populate('Submissions')
             var temp=found.Submissions
             var found1=[]
             for(var i=0;i<temp.length;i++){
@@ -779,8 +856,11 @@ app.get('/contest/:contest_id/my_submissions', async function(req,res){
         console.log(err);
     }
 })
-app.post('/contests/:contest_id/:question_id/submit_code', async function(req,res){
+app.post('/submit_code/contests/:contest_id/',async function(req,res){
     try{
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+         }
         if(req.cookies.cookies||req.user){
             if(req.user){
                 console.log(req.user)
@@ -788,34 +868,40 @@ app.post('/contests/:contest_id/:question_id/submit_code', async function(req,re
                 console.log(idchoice, "herlllo")
                 res.cookie('cookies',idchoice);
             }
-            var user=await userm.findById(req.cookies.cookies)
-            var question= await questionm.findById(req.params.question_id).populate('Test_cases')
-            var tcs=question.Test_cases
+            console.log(req.body)
+            var user= await userm.findById(req.cookies.cookies, )
+            var question= await questionm.findById(req.body.question_id).populate('Test_cases')
+            let tcs=question.Test_cases
+            console.log(tcs)
             var i=0;
             var flag=1
             for(i=0;i<tcs.length;i++){
                 var stat;
+                curr_output=tcs[i].Output
+                curr_input=tcs[i].Input
                 var program = {
                     script : req.body.message,
-                    stdin:tcs[i].input,
+                    stdin:tcs[i].Input,
                     language: req.body.lang,
                     versionIndex: "1",
                     clientId: tokeninput.ideapiid,
                     clientSecret:tokeninput.ideapikey
                 };
-                request({
+                await request({
                     url: 'https://api.jdoodle.com/v1/execute',
                     method: "POST",
                     json: program
                 },
-                async function (error, response, body) {
-                    if(body.output!=tcs[i].output){
+                function (error, response, body) {
+                    console.log(curr_output==body.output.substr(0,curr_output.length))
+                    if(body.output.substr(0,body.output.length-1)!=curr_output){
                         flag=0
                     }
                     if(body.cpuTime>1){
                         flag=2
                     }
                 })
+                await sleep(3000)
                 if(flag!=1)break
             }
             if(flag==2){
@@ -842,7 +928,8 @@ app.post('/contests/:contest_id/:question_id/submit_code', async function(req,re
                     status:"Wrong Answer"
                 })
             }
-            return res.redirect('/contest/'+req.params.contest_id+'/my_submissions')
+            console.log("Done")
+            return res.redirect('/my_submissions/contest/'+req.params.contest_id)
         }
         else{
             req.flash("error","You are not logged in.")
@@ -935,84 +1022,4 @@ app.post('/TA/doubt/:id/addreply', async function(req,res){
     })
     var doubtupdated=await doubtm.findByIdAndUpdate(doubt.id, {$push:{messages:newreply}}).populate('author');
     return res.redirect('back')
-})
-app.get('/assigndoubttota/:doubtid/:taid', async function(req,res){
-    try{
-        var doubt=await doubtm.findById(req.params.doubtid)
-        if(dount.status!=1){
-            return res.redirect('back')
-        }
-        var found=await Tam.findById(req.params.taid)
-        var foundupdated=await Tam.findByIdAndUpdate(req.params.taid, {$push:{OnGoingDoubts:doubt}})
-        return res.redirect('back')
-    }
-    catch(err){
-        console.log(err);
-    }
-})
-app.post('/createcontest',async function(req,res){
-    try{
-        var Created=await contestm.create({
-            Round_name:req.body.Round_name,
-            start_time:req.body.start_time,
-            end_time:req.body.end_time,
-        })
-        return res.redirect('back');
-    }
-    catch(err){
-        //console.log(err);
-    }
-})
-app.post('/addquestionstocontests', async function(req,res){
-    try{
-        var found=await contestm.findById(req.body.contest_id)
-        var foundq=await questionm.findById(req.body.question_id)
-        var updated=await contestm.findByIdAndUpdate(req.body.contest_id,{
-            $push:{
-                questions:foundq
-            }
-        })
-        return res.redirect('back');
-    }
-    catch(err){
-        //console.log(err);
-    }
-})
-app.post('/createquestions', async function(req,res){
-    try{
-        TCS=[]
-        for (var i = 0; i < req.body.Tests.length; i++) {
-            var curr=testcasem.findById(req.body.Tests[i])
-            TCS.push(curr)
-        }
-        var Created=await questionm.create({
-            Name:req.body.Name,
-            Problem_Statement:req.body.Problem_Statement,
-            Test_cases:TCS
-        })
-        return res.redirect('back');
-    }
-    catch(err){
-        //console.log(err);
-    }
-})
-app.post('/createTCS', async function(req,res){
-    try{
-        var Created=await testcasem.create({
-            Input:req.body.Input,
-            Output:req.body.Output
-        })
-        return res.redirect('back');
-    }
-    catch(err){
-        //console.log(err);
-    }
-})
-app.listen(port, function(err){
-    if(err){
-        console.error("error on loading server" ,err)
-    }
-    else{
-        console.log(`working on port: ${port}`);
-    }
 })

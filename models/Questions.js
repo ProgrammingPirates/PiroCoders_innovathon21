@@ -18,7 +18,7 @@ const Questions = new mongoose.Schema({
     }],
     Test_cases:[{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Test_Case'
+        ref:'Test_cases'
     }]
 },{
     timestamps:true

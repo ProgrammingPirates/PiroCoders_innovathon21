@@ -6,7 +6,7 @@ const Contests = new mongoose.Schema({
     },
     Submissions:[{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'submission'
+        ref:'Submission'
     }],
     Contestants:[{
         type:mongoose.Schema.Types.ObjectId,
@@ -16,6 +16,18 @@ const Contests = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'Questions'
     }],
+    start_time:{
+        type:String,
+        required:true
+    },
+    end_time:{
+        type:String,
+        required:true
+    },
+    date:{
+        type:Date,
+        required:true
+    }
 },{
     timestamps:true
 })

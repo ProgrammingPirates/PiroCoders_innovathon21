@@ -20,6 +20,10 @@ const submission = new mongoose.Schema({
     },
     status:{
         type:String,
+    },
+    quetion:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Questions'
     }
 },{
     timestamps:true
