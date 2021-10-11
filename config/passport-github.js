@@ -8,7 +8,7 @@ const userm=require('../models/users')
 passport.use(new GitHubStrategy({
     clientID: tokeninput.passgitclientID,
     clientSecret: tokeninput.passgitclientSecret,
-    callbackURL: "https://codekaksha.herokuapp.com/login/auth/github/callback"
+    callbackURL: "https://pirocoders-codekaksha.herokuapp.com/login/auth/github/callback"
 },function(accessToken, refreshToken, profile, done) {
     console.log(profile);
     userm.findOne({email:profile.emails[0].value}).exec(function(err,found){   
