@@ -7,7 +7,7 @@ const userm=require('../models/users')
 passport.use(new google({
     clientID:tokeninput.passgooclientID,
     clientSecret:tokeninput.passgoogclientSecret,
-    callbackURL:"http://codekaksha.herokuapp.com/login/outh/google/callback"
+    callbackURL:"https://pirocoders-codekaksha.herokuapp.com/login/outh/google/callback"
 },function(access, refresh, profile, done){
     userm.findOne({email:profile.emails[0].value}).exec(function(err,found){   
         if(err){
