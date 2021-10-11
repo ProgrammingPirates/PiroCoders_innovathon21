@@ -22,6 +22,7 @@ const loginmailer=require('./mailer/login')
 const port=process.env.PORT || 3000;
 const flash = require('connect-flash');
 const { type } = require("os");
+const MongoStore=require('connect-mongo')(session)
 const passport = require('passport');
 const googlestrat =require('./config/passport-google')
 const facebookstrat=require('./config/passport-facebook')
@@ -33,7 +34,7 @@ app.use(expresslayout)
 app.use(cookiep())
 app.use(express.static('assets'))      //for static files
 app.use(express.urlencoded());         // for form data only
-const MongoStore=require('connect-mongo')(session)
+
 app.use(session({
     name:'loginsessions',
     secret:'7237279abaca1981beee2bc5ca804aae',
@@ -312,7 +313,8 @@ app.post('/createuser', async function(req,res){
 app.get('/logout', async function(req,res){
     if(req.cookies.cookies||req.user){
         res.clearCookie('cookies');
-        //console.log(req.session)
+        res.clearCookie('loginsessions');
+        console.log(req.session)
         req.flash("success","Logged Out Successfully")
         req.session.destroy()
         //console.log(req.session)
@@ -374,8 +376,8 @@ app.get('/viewsubmission/:id',async function(req,res){
 })
 app.get('/profile/viewdoubt/:id1',async function(req,res){
     if(req.cookies.cookies||req.user){
-        var doubt=await doubtm.findById(req.params.id1).populate('author').populate({path:'messages', populate:{path:'author'}});
-        var found=await userm.findById(doubt.author.id). populate('messages');
+        var doubt=await doubtm.findById(req.params.id1).populate('author').populate('messages').populate({path:'messages', populate:{path:'author'}});
+        var found=await userm.findById(doubt.author.id)
         return res.render('viewdoubt',{
             title:"View Doubt",
             user:found,
@@ -833,14 +835,16 @@ app.get('/my_submissions/contest/:contest_id/', async function(req,res){
                 console.log(idchoice, "herlllo")
                 res.cookie('cookies',idchoice);
             }
-            var found=await contestm.findById(req.params.contest_id).populate('questions').populate('Submissions')
+            var found=await contestm.findById(req.params.contest_id).populate('questions').populate('Submissions').populate('Submissions.author')
             var temp=found.Submissions
             var found1=[]
             for(var i=0;i<temp.length;i++){
-                if(temp[i].writer==ObjectID(req.cookies.cookies)){
+                console.log(temp[i].writer)
+                if(temp[i].writer==req.cookies.cookies){
                     found1.push(temp[i])
                 }
             }
+            console.log(found1)
             return res.render('my_submissions',{
                 title:found.Round_name,
                 contest:found,
@@ -904,6 +908,7 @@ app.post('/submit_code/contests/:contest_id/',async function(req,res){
                 await sleep(3000)
                 if(flag!=1)break
             }
+            var newsub;
             if(flag==2){
                 newsub=await submissionm.create({
                     code:req.body.message,
@@ -928,6 +933,11 @@ app.post('/submit_code/contests/:contest_id/',async function(req,res){
                     status:"Wrong Answer"
                 })
             }
+            var updated_contest=await contestm.findByIdAndUpdate(req.params.contest_id,{
+                $push:{
+                    Submissions:newsub
+                }
+            })
             console.log("Done")
             return res.redirect('/my_submissions/contest/'+req.params.contest_id)
         }
@@ -946,7 +956,7 @@ app.post('/create_TA', async function(req,res){
         var TACreated=await Tam.create({
             name:req.body.name,
             email:req.body.email,
-            password:req.body.password,
+            pass2:req.body.password,
         })
         return res.redirect('back')
     }
@@ -954,9 +964,22 @@ app.post('/create_TA', async function(req,res){
         console.log(err);
     }
 })
+app.get('/TA/loginpage', async function(req,res){
+    try{
+        return res.render('TAlogin',{
+            title:"Login"
+        })
+    }
+    catch(err){
+        console.log(err);
+    }
+})
 app.post('/TA/login', async function(req,res){
     try{
-        var found=await Tam.find({email:req.query.email}).populate('OnGoingDoubts').populate('CompletedDoubts')
+        if(req.cookies.TA){
+            return res.redirect('/TA/profile')
+        }
+        var found=await Tam.find({email:req.body.email}).populate('OnGoingDoubts').populate('CompletedDoubts')
         if(req.body.pass==found[0].password){
             res.cookie('TA',found[0]._id);
             return res.redirect('/TA/profile')
@@ -970,8 +993,10 @@ app.get('/TA/profile', async function(req,res){
     try{
         if(req.cookies.TA){
             var found=await Tam.findById(req.cookies.TA).populate('OnGoingDoubts').populate('CompletedDoubts')
+            var doubts=await doubtm.find({status:1}).populate('author')
             return res.render('TA_profile',{
                 title:found.name,
+                doubts:doubts,
                 Ta_details:found
             })
         }
@@ -988,10 +1013,12 @@ app.get('/TA/profile', async function(req,res){
 app.get('/TA/view/:doubtid', async function(req,res){
     try{
         if(req.cookies.TA){
-            var TA_found=await Tam.findById(req.cookies.TA).populate('OnGoingDoubts').populate('CompletedDoubts')
+            var found=await doubtm.findById(req.params.doubtid).populate('author').populate('messages').populate({path:'messages', populate:{path:'author'}});
+            var TA_found=await Tam.findById(req.cookies.TA).populate('CompletedDoubts')
             return res.render('TA_view',{
                 title:found.title,
-                doubt:found
+                doubt:found,
+                user:TA_found
             })
         }
         else{
@@ -1007,7 +1034,7 @@ app.get('/TA/view/:doubtid', async function(req,res){
 app.get('/TA/logout', async function(req,res){
     try{
         res.clearCookie('TA');
-        return res.redirect('/')
+        return res.redirect('/TA/loginpage')
     }
     catch(err){
         console.log(err);

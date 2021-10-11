@@ -24,7 +24,7 @@ const DoubtSchema = new mongoose.Schema({
     },
     TA:{ 
         type:mongoose.Schema.Types.ObjectId,
-        ref:'User'
+        ref:'Ta'
     }
 },{
     timestamps:true

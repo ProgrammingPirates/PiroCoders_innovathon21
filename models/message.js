@@ -6,8 +6,11 @@ const messageschema = new mongoose.Schema({
     },
     author:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'User',
-        required:true
+        ref:'User'
+    },
+    author2:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Ta'
     }
 },{
     timestamps:true
