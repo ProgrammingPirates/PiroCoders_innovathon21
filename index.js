@@ -322,7 +322,7 @@ app.get('/logout', async function(req,res){
     else{
         req.flash("error","You are not logged out.")
     }
-    return res.redirect('/login')
+    return res.redirect('/')
 })
 
 
