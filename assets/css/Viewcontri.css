@@ -1,4 +1,5 @@
 #header{
+    position:relative; top:-10%;
     text-align: center;
 }
 #logo-header{
@@ -17,8 +18,7 @@
 }
 #content-area-profile{
     overflow: scroll;
-    height: calc(100vh - 11.3rem);
-    background: #ffa500a8;
+    height: 10vh;
 }
 .options-profile{
     color: white;
@@ -31,7 +31,7 @@
     cursor: pointer;
 }
 .options-profile:hover{
-    background-color: rgb(103,103,183);
+    background: radial-gradient(ellipse at bottom, #0D1E31, #111);
     border: 1px solid white;
 }
 #info-display-1 div{

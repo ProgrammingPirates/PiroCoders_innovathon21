@@ -1,4 +1,5 @@
 #header{
+    position:relative; top:-10%;
     text-align: center;
 }
 #logo-header{
@@ -16,7 +17,7 @@
     left: 90%;
 }
 #content-area-profile{
-    height: calc(100vh - 11.3rem);
+    height: 10vh;
     background: #ffa500a8;
 }
 .options-profile{

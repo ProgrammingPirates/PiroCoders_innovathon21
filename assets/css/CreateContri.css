@@ -1,13 +1,14 @@
 #header{
+    position:relative; top:-10%;
     text-align: center;
 }
 #logo-header{
     height: 10rem;
 }
 #form-area{
-    background-color: rgb(168, 136 , 255);
+    background-color: radial-gradient(ellipse at bottom, #0D1E31, #111);
     color: white;
-    height: calc(100vh - 10.3rem);
+    height: 10vh;;
     width: 100vw;
 }
 #heading{
@@ -48,10 +49,10 @@ body input[type=text] {
 }
 body input[type=submit] {
     background-color: inherit;
-    border: 3px solid  rgb(168, 136 , 255);
+    border: 3px solid  radial-gradient(ellipse at bottom, #0D1E31, #111);
     padding: 5.35% 10.7%;
     cursor: pointer; 
-    color: rgb(168, 136 , 255);
+    color: radial-gradient(ellipse at bottom, #0D1E31, #111);
     position: absolute;
     font-size: 2rem;
 }

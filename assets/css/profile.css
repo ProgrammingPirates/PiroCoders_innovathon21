@@ -1,9 +1,10 @@
 body{
     background-image: url('../mediafiles/login_page2.jpeg');
-    
+background-repeat: no-repeat;
 }
 
 #header{
+    position:relative; top:-10%;
     text-align: center;
 }
 #logo-header{
@@ -22,8 +23,7 @@ body{
     left: 90%;
 }
 #content-area-profile{
-    background: radial-gradient(ellipse at bottom, #0D1E31, #111);
-    height: calc(100vh - 11.3rem);
+    height: 10vh;
 }
 .options-profile{
     color: white;

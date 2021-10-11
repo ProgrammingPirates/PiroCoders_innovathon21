@@ -41,7 +41,7 @@
 </head>
 
 <body>
-    <header id="header">
+    <header id="header" style="background-image: url('../mediafiles/login_page2.jpeg'); top: 0%;">
         <a href="/">
 
             <img id="logo-header" src="/mediafiles/logo.png">
@@ -53,7 +53,7 @@
         </div>
     </header>
     <main>
-        <div style="background-color: rgb(168,136,255); height: 100vh; width: 18%; position: absolute; top: 0%;">
+        <div style="background: radial-gradient(ellipse at bottom, #0D1E31, #111); height: 100vh; width: 18%; position: absolute; top: 0%;">
             <div style="background-color: orange; height: 22%; width: 100%; position: absolute; top: 0%; border: 2px solid black; border-radius: 2px;">
                 <div id="namemailbox">
                     <p>
@@ -67,42 +67,40 @@
                 <div id="option-1" class="options-profile" style="top: 29%; height: 19vh;">
                     Basic
                 </div>
-                <a href="/profile">
-                    <div id="option-1" class="options-profile" style="top: 29%;">
-                        Basic
-                    </div>
-                </a>
-                <a href="/ide">
-                    <div id="option-2" class="options-profile" style="top: 39%;">
+                <div id="option-1" class="options-profile" style="top: 29%; background: radial-gradient(ellipse at bottom, #0D1E31, #111);">
+                    Basic
+                </div>
+            <a href="/ide">
+                <div id="option-2" class="options-profile" style="top: 39%;">
                         Practice
-                    </div>
-                </a>
-                <a href="/profile/Doubts">
-                    <div id="option-3" class="options-profile" style="top: 59%;">
+                </div>
+            </a>
+            <a href="/profile/Doubts">
+                <div id="option-3" class="options-profile" style="top: 59%;">
                         Doubts
-                    </div>
-                </a>
-                <a href="/profile/Interests">
-                    <div id="option-4" class="options-profile" style="top: 69%;">
-                        Interests
-                    </div>
-                </a>
-                <a>
-                    <div id="option-5" class="options-profile" style="top: 79%; background-color: rgb(103,103,183);">
+                </div>
+            </a>
+            <a href="/contest">
+                <div id="option-4" class="options-profile" style="top: 69%;">
+                        Contest
+                </div>
+            </a>
+            <a href="/profile/Contributions">
+                <div id="option-5" class="options-profile" style="top: 79%;">
                         Contributions
-                    </div>
-                </a>
-                <a href="/profile/Edit-info">
-                    <div id="option-6" class="options-profile" style="top: 89%;">
+                </div>
+            </a>
+            <a href="/profile/Edit-info">
+                <div id="option-6" class="options-profile" style="top: 89%;">
                         Edit-info
-                    </div>
-                </a>
-                <a href="/learn">
-                    <div id="option-6" class="options-profile" style="top: 89%;">
-                        Learn about a topic
-                    </div>
-                </a>
-            </div>
+                </div>
+            </a>
+            <a href="/learn">
+                <div id="option-6" class="options-profile" style="top: 89%;">
+                    Learn about a topic
+                </div>
+            </a>
+        </div>
         </div>
         <div id="content-area-profile" class="flex-class">
             <%for(var i=0;i<contrilist.length;i++){%>

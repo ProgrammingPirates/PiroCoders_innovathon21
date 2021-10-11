@@ -4,7 +4,7 @@ const messagem=require('./models/message')
 const tokeninput=require('./tokens/tokens')
 const request=require('request')
 const cookiep=require('cookie-parser');
-// const session=require('express-session')
+const session=require('express-session')
 const expresslayout=require('express-ejs-layouts')
 const db=require('./config/mongoose')
 const flashm = require('./config/middleware');
@@ -22,8 +22,7 @@ const loginmailer=require('./mailer/login')
 const port=process.env.PORT || 3000;
 const flash = require('connect-flash');
 const { type } = require("os");
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
+const MongoStore=require('connect-mongo')(session)
 const passport = require('passport');
 const googlestrat =require('./config/passport-google')
 const facebookstrat=require('./config/passport-facebook')
@@ -42,8 +41,10 @@ app.use(session({
     cookie: { maxAge: 3600*1000*1000 }, 
     resave: false, 
     saveUninitialized: false,
-    store: MongoStore.create({
-        mongoUrl: tokeninput.mongouri,
+    store: new MongoStore({
+        mongooseConnection: db,
+        autoRemove:'disabled'
+    },function(err){
     })
 }));   
 app.use(flash());
