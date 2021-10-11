@@ -8,7 +8,7 @@ const { response } = require('express');
 passport.use(new FacebookStrategy({
     clientID: tokeninput.passfaceclientID,
     clientSecret: tokeninput.passfaceclientSecret,
-    callbackURL: "https://codekaksha.herokuapp.com/auth/facebook/callback",
+    callbackURL: "https://pirocoders-codekaksha.herokuapp.com/auth/facebook/callback",
     profileFields: ['id', 'emails', 'name'] 
   },function(accessToken, refreshToken, profile, done) {
     userm.findOne({email:profile.emails[0].value}).exec(function(err,found){   
